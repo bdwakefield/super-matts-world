@@ -9,8 +9,6 @@ import org.flixel.FlxFadeListener;
 import org.flixel.FlxG;
 import org.flixel.FlxSound;
 import org.flixel.FlxSprite;
-import org.myname.flixeldemo.parsing.Level;
-import org.myname.flixeldemo.parsing.LevelParser;
 
 import android.view.KeyEvent;
 
@@ -109,11 +107,8 @@ public class Player extends FlxSprite
 			public void fadeComplete()
 			{
 				FlxG.switchState(MenuState.class);
-				//Level.level_choice = R.raw.lvl_test3;
-				//FlxG.switchState(Level.class);
-				//Level.switchLevel("lvl_test3","");
 			}
-		}, true
+		}
 		);
 	}
 	

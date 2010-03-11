@@ -22,16 +22,11 @@ public class Level extends FlxState
 	protected String name;
 	protected int width, height;
 	
-	
 	public static int nextLevel = R.raw.lvl_test;
 	public static int currentLevel = R.raw.lvl_test;
 	public static String levelEntryLabel = "start";
-
-	
 	
 	public static HashMap<Integer, Level> levelSaves= new HashMap<Integer, Level>();
-	
-	
 
 	protected Player player;
 //	protected final ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -79,7 +74,7 @@ public class Level extends FlxState
 			FlxG.followBounds(0, 0, this.width + 100, this.height + 100);
 		}else{
 			
-			new LevelParser(this);
+			//new LevelParser(this);
 			for(Iterator<FlxBlock> it = movingBlocks.iterator(); it.hasNext();)
 				super.add(it.next());
 	
