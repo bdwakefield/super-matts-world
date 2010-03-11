@@ -10,6 +10,7 @@ import org.flixel.FlxCore;
 import org.flixel.FlxG;
 import org.flixel.FlxState;
 import org.myname.flixeldemo.Enemy;
+import org.myname.flixeldemo.JumpBlock;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
 
@@ -17,16 +18,16 @@ import flash.geom.Point;
 
 public class Level extends FlxState
 {
+	public static final String LABEL_START = "start";
+	public static final HashMap<Integer, Level> levelSaves= new HashMap<Integer, Level>();
+
 	protected int defaultTexture = R.drawable.tech_tiles;
 	protected int background;
 	protected String name;
 	protected int width, height;
-	
+
 	public static int nextLevel = R.raw.lvl_test;
 	public static int currentLevel = R.raw.lvl_test;
-	public static String levelEntryLabel = "start";
-	
-	public static HashMap<Integer, Level> levelSaves= new HashMap<Integer, Level>();
 
 	protected Player player;
 //	protected final ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -48,7 +49,7 @@ public class Level extends FlxState
 	protected ArrayList<FlxBlock> deathBlocks = new ArrayList<FlxBlock>();
 
 	public Level()
-	{
+	{		
 		if (!Level.levelSaves.containsKey(nextLevel)){
 			new LevelParser(this);
 	
