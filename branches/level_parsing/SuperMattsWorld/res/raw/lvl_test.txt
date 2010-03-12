@@ -37,12 +37,13 @@ umbrella 0
 [label]
 #name x y  ... start is required
 start 25 240
+higher 150 184
 
-#[jump]
+[jump]
 # x y width height goto label
-#100 50 10 1000 storyboard1
-#2000 50 100 100 level2.start
-#1500 1000 10 10 level3.door1
+100 184 16 16 lvl_jump_test start
+#2000 50 100 100 level2 start
+#1500 1000 10 10 level3 door1
 
 
 #[powerup]

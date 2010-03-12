@@ -11,6 +11,7 @@ import java.util.Map;
 import org.flixel.FlxBlock;
 import org.myname.flixeldemo.Enemy;
 import org.myname.flixeldemo.GameView;
+import org.myname.flixeldemo.JumpBlock;
 import org.myname.flixeldemo.MovingBlock;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
@@ -18,11 +19,14 @@ import org.myname.flixeldemo.R;
 import flash.geom.Point;
 
 /**
+ * Parses Level data from text files. These files are used to create <code>Level</code>
+ * objects to run the game.
  * 
+ * 3/11/2010 - Tony Greer Implemented jump blocks and added lvl_jump_test
+ *  
  * @author Matt's World Design Team
- *
  */
-public class LevelParser
+public final class LevelParser
 {
 	enum State{LEVEL, MIDDLE_GROUND, STATIONARY_BLOCK, MOVING_BLOCK, HURT_BLOCK, DEATH_BLOCK, ENEMY, LABEL, JUMP, POWER_UP, NONE}
 
@@ -44,6 +48,7 @@ public class LevelParser
 		temp.put("lvl_test", R.raw.lvl_test);
 		temp.put("lvl_test2", R.raw.lvl_test2);
 		temp.put("lvl_test3", R.raw.lvl_test3);
+		temp.put("lvl_jump_test", R.raw.lvl_jump_test);
 		
 		/*
 		 * TODO - Add all resources that will be referenced as a memory
@@ -107,7 +112,6 @@ public class LevelParser
 				{
 					state = State.ENEMY;
 					continue;
-					
 				}else if(str.equalsIgnoreCase("[label]"))
 				{
 					state = State.LABEL;
@@ -128,7 +132,7 @@ public class LevelParser
 				 */
 				String[] strParts = str.split("\\s+");
 				
-				String name;
+				String name, lvl_name;
 				int xInit, yInit, width, height,
 				maxXMovement, maxYMovement, horizSpeed, verticSpeed, texture;
 				switch(state)
@@ -232,6 +236,15 @@ public class LevelParser
 					break;
 
 					case JUMP:
+						xInit = Integer.parseInt(strParts[0]);
+						yInit = Integer.parseInt(strParts[1]);
+						width = Integer.parseInt(strParts[2]);
+						height = Integer.parseInt(strParts[3]);
+						lvl_name = strParts[4];
+						name = strParts[5];
+						
+						//-- TODO Account for multiple visits
+						level.jump.add(new JumpBlock(xInit, yInit, width, height, lvl_name, name, true).loadGraphic(R.drawable.fire));
 
 					break;
 
