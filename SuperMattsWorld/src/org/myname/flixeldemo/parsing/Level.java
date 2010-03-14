@@ -22,7 +22,7 @@ public class Level extends FlxState
 	private static final HashMap<Integer, Level> levelSaves = new HashMap<Integer, Level>();
 
 	/** The next level to be loaded upon SwitchState to this class.*/
-	public static int nextLevel = R.raw.lvl_jump_test;
+	public static int nextLevel = R.raw.lvl_test;
 	/** The current level to already loaded in this class. */
 	public static int currentLevel = R.raw.lvl_jump_test;
 	/** The label to start the player at in this class. start if not set. */
@@ -33,6 +33,7 @@ public class Level extends FlxState
 	protected String name;
 	protected int width, height;
 	protected Player player;
+	protected int music = 0;
 	protected ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	protected HashMap<String, Point> labels = new HashMap<String, Point>();
 	//-- TODO needs a container Object for inner variables.
@@ -61,6 +62,8 @@ public class Level extends FlxState
 		Point startPoint = labels.containsKey(startLabel) ? labels.get(startLabel) : labels.get(DEFAULT_START_LABEL);
 		this.player.x = startPoint.x;
 		this.player.y = startPoint.y;
+		if (music != 0)
+			FlxG.playMusic(music);
 
 		//-- Save?
 		currentLevel = LevelParser.KEY_RESOURCE_ADDR.get(this.name);
@@ -218,5 +221,6 @@ public class Level extends FlxState
 		this.width = level.width;
 		this.height = level.height;
 		this.defaultTexture = level.defaultTexture;
+		this.music = level.music;
 	}
 }
