@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.flixel.FlxBlock;
+import org.flixel.FlxG;
 import org.myname.flixeldemo.Enemy;
 import org.myname.flixeldemo.GameView;
 import org.myname.flixeldemo.JumpBlock;
@@ -28,7 +29,7 @@ import flash.geom.Point;
  */
 public final class LevelParser
 {
-	enum State{LEVEL, MIDDLE_GROUND, STATIONARY_BLOCK, MOVING_BLOCK, HURT_BLOCK, DEATH_BLOCK, ENEMY, LABEL, JUMP, POWER_UP, NONE}
+	enum State{LEVEL, MIDDLE_GROUND, STATIONARY_BLOCK, MOVING_BLOCK, HURT_BLOCK, DEATH_BLOCK, ENEMY, LABEL, JUMP, POWER_UP, MUSIC, NONE}
 
 	/** Map for taking text resource names and converting them into the integer address value. */
 	public static final Map<String, Integer> KEY_RESOURCE_ADDR;
@@ -49,6 +50,9 @@ public final class LevelParser
 		temp.put("lvl_test2", R.raw.lvl_test2);
 		temp.put("lvl_test3", R.raw.lvl_test3);
 		temp.put("lvl_jump_test", R.raw.lvl_jump_test);
+		temp.put("d3d", R.raw.d3d);
+		temp.put("death1", R.raw.death1);
+		temp.put("death2", R.raw.death2);
 		
 		/*
 		 * TODO - Add all resources that will be referenced as a memory
@@ -124,7 +128,12 @@ public final class LevelParser
 				{
 					state = State.POWER_UP;
 					continue;	
+				}else if(str.equalsIgnoreCase("[music]"))
+				{
+					state =State.MUSIC;
+					continue;
 				}
+				
 
 				/*
 				 * TODO Handle all of the different attributes
@@ -251,6 +260,13 @@ public final class LevelParser
 					case POWER_UP:
 
 					break;
+					
+					case MUSIC:
+						level.music = KEY_RESOURCE_ADDR.get(strParts[0]);
+					
+					break;
+						
+						
 
 					default:
 						throw new ParseException("F!", -1);
