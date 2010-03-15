@@ -9,6 +9,7 @@ import org.flixel.FlxFadeListener;
 import org.flixel.FlxG;
 import org.flixel.FlxSound;
 import org.flixel.FlxSprite;
+import org.myname.flixeldemo.parsing.Level;
 
 import android.view.KeyEvent;
 
@@ -99,6 +100,9 @@ public class Player extends FlxSprite
 		this.chunkies.x = this.x + (this.width>>1);
 		this.chunkies.y = this.y + (this.height>>1);
 		this.chunkies.restart();
+
+		//-- clear level saves so I am not always dead!!!
+		Level.levelSaves.clear();
 
 		//-- Fade out for dramatic effect before
 		//   going back to the title screen.

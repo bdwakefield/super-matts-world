@@ -12,6 +12,10 @@ lvl_test3 2000 400 tech_tiles
 #name
 death2
 
+[time]
+#in seconds (to complete)
+100
+
 [middle_ground]
 # types randomness [0 100] 
 umbrella 0

@@ -9,6 +9,7 @@ import org.flixel.FlxCollideListener;
 import org.flixel.FlxCore;
 import org.flixel.FlxG;
 import org.flixel.FlxState;
+import org.flixel.FlxText;
 import org.myname.flixeldemo.Enemy;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
@@ -19,7 +20,7 @@ public class Level extends FlxState
 {
 	public static final String DEFAULT_START_LABEL = "start";
 
-	private static final HashMap<Integer, Level> levelSaves = new HashMap<Integer, Level>();
+	public static final HashMap<Integer, Level> levelSaves = new HashMap<Integer, Level>();
 
 	/** The next level to be loaded upon SwitchState to this class.*/
 	public static int nextLevel = R.raw.lvl_test;
@@ -27,6 +28,8 @@ public class Level extends FlxState
 	public static int currentLevel = R.raw.lvl_jump_test;
 	/** The label to start the player at in this class. start if not set. */
 	public static String startLabel;
+	/** Only set by LevelParser and incremented with power-ups.*/
+	public static float timeRemaining = 60;
 
 	protected int defaultTexture = R.drawable.tech_tiles;
 	protected int background;
@@ -42,6 +45,7 @@ public class Level extends FlxState
 	protected ArrayList<FlxBlock> stationaryBlocks = new ArrayList<FlxBlock>();
 	protected ArrayList<FlxBlock> hurtBlocks = new ArrayList<FlxBlock>();
 	protected ArrayList<FlxBlock> deathBlocks = new ArrayList<FlxBlock>();
+	protected FlxText hud;
 
 	public Level()
 	{
@@ -51,6 +55,7 @@ public class Level extends FlxState
 		else
 			new LevelParser(this);
 
+		hud = new FlxText((int)super.x, (int)super.y, 150);
 		this.addComponentsToLayer();
 		this.setCameraFollow();
 
@@ -65,6 +70,7 @@ public class Level extends FlxState
 		if (music != 0)
 			FlxG.playMusic(music);
 
+	
 		//-- Save?
 		currentLevel = LevelParser.KEY_RESOURCE_ADDR.get(this.name);
 		levelSaves.put(currentLevel, this);
@@ -150,11 +156,7 @@ public class Level extends FlxState
 			{
 				//-- TODO Enemy specific code here... May want to kill the enemy or hurt the player
 				//   based on a series of instanceof statements. 
-				//player.kill();
-				//object1.dead = true;
-				//object1.visible = false;
-				((Enemy)object1).exists = false;
-				Level.switchLevel("lvl_test","");
+				player.kill();
 			}
 		}		
 		);
@@ -163,6 +165,24 @@ public class Level extends FlxState
 		 * JUMP BLOCKS - have to trigger the overridden overlaps function.
 		 */
 		FlxG.overlapArrayList(jump, player);
+
+		/*
+		 * LEVEL TIMER
+		 */
+		if(timeRemaining > 0)
+		{
+			timeRemaining -= FlxG.elapsed;
+	
+			// Update HUD
+			hud.x =  -FlxG.scroll.x;
+			hud.y =  -FlxG.scroll.y;
+			hud.width = FlxG.width;
+			hud.setText("Time: " + (int)timeRemaining + "     Level: " + this.name + "     x: " + (int)player.x + " y: " + (int)player.y);
+			if(timeRemaining <= 0)
+			{
+				player.kill();
+			}
+		}
 	}
 
 	/**
@@ -189,6 +209,8 @@ public class Level extends FlxState
 
 		for(Iterator<FlxBlock> it = jump.iterator(); it.hasNext();)
 			super.add(it.next());
+
+		super.add(hud);
 	}
 
 	/**
