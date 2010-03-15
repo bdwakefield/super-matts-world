@@ -12,6 +12,10 @@ lvl_test 2000 400 tech_tiles
 #name
 death1
 
+[time]
+#in seconds (to complete)
+60
+
 [middle_ground]
 # types randomness [0 100] 
 umbrella 0
@@ -46,7 +50,7 @@ higher 150 184
 [jump]
 # x y width height goto label
 100 184 16 16 lvl_jump_test start
-#2000 50 100 100 level2 start
+2000 50 100 100 lvl_test2 start
 #1500 1000 10 10 level3 door1
 
 

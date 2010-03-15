@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.flixel.FlxBlock;
-import org.flixel.FlxG;
 import org.myname.flixeldemo.Enemy;
 import org.myname.flixeldemo.GameView;
 import org.myname.flixeldemo.JumpBlock;
@@ -29,7 +28,7 @@ import flash.geom.Point;
  */
 public final class LevelParser
 {
-	enum State{LEVEL, MIDDLE_GROUND, STATIONARY_BLOCK, MOVING_BLOCK, HURT_BLOCK, DEATH_BLOCK, ENEMY, LABEL, JUMP, POWER_UP, MUSIC, NONE}
+	enum State{LEVEL, MIDDLE_GROUND, STATIONARY_BLOCK, MOVING_BLOCK, HURT_BLOCK, DEATH_BLOCK, ENEMY, LABEL, JUMP, POWER_UP, MUSIC, TIME, NONE}
 
 	/** Map for taking text resource names and converting them into the integer address value. */
 	public static final Map<String, Integer> KEY_RESOURCE_ADDR;
@@ -132,8 +131,11 @@ public final class LevelParser
 				{
 					state =State.MUSIC;
 					continue;
+				}else if(str.equalsIgnoreCase("[time]"))
+				{
+					state =State.TIME;
+					continue;
 				}
-				
 
 				/*
 				 * TODO Handle all of the different attributes
@@ -265,8 +267,11 @@ public final class LevelParser
 						level.music = KEY_RESOURCE_ADDR.get(strParts[0]);
 					
 					break;
-						
-						
+
+					case TIME:
+						Level.timeRemaining = Float.parseFloat(strParts[0]);
+					
+					break;					
 
 					default:
 						throw new ParseException("F!", -1);
