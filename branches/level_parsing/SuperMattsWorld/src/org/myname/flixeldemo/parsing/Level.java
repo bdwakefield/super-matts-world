@@ -9,8 +9,8 @@ import org.flixel.FlxCollideListener;
 import org.flixel.FlxCore;
 import org.flixel.FlxG;
 import org.flixel.FlxState;
-import org.flixel.FlxText;
 import org.myname.flixeldemo.Enemy;
+import org.myname.flixeldemo.Hud;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
 
@@ -46,8 +46,8 @@ public class Level extends FlxState
 	protected ArrayList<FlxBlock> hurtBlocks = new ArrayList<FlxBlock>();
 	protected ArrayList<FlxBlock> deathBlocks = new ArrayList<FlxBlock>();
 	protected ArrayList<FlxBlock> powerUps = new ArrayList<FlxBlock>();
-	protected FlxText hud;
-
+	protected Hud headsUp = new Hud();
+	
 	public Level()
 	{
 		if (Level.levelSaves.containsKey(nextLevel))
@@ -56,7 +56,7 @@ public class Level extends FlxState
 		else
 			new LevelParser(this);
 
-		hud = new FlxText((int)super.x, (int)super.y, 150);
+		
 		this.addComponentsToLayer();
 		this.setCameraFollow();
 
@@ -182,10 +182,8 @@ public class Level extends FlxState
 			timeRemaining -= FlxG.elapsed;
 	
 			// Update HUD
-			hud.x =  -FlxG.scroll.x;
-			hud.y =  -FlxG.scroll.y;
-			hud.width = FlxG.width;
-			hud.setText("Time: " + (int)timeRemaining + "     Level: " + this.name + "     x: " + (int)player.x + " y: " + (int)player.y);
+			headsUp.updateHud("Time: " + (int)timeRemaining + "     Level: " 
+					+ this.name + "     x: " + (int)player.x + " y: " + (int)player.y);
 			if(timeRemaining <= 0)
 			{
 				player.kill();
@@ -221,7 +219,8 @@ public class Level extends FlxState
 		for(Iterator<FlxBlock> it = powerUps.iterator(); it.hasNext();)
 			super.add(it.next());
 
-		super.add(hud);
+		super.add(headsUp.getBackground());
+		super.add(headsUp.getHudText());
 	}
 
 	/**
@@ -256,5 +255,6 @@ public class Level extends FlxState
 		this.defaultTexture = level.defaultTexture;
 		this.music = level.music;
 		this.powerUps = level.powerUps;
+		this.headsUp = level.headsUp;
 	}
 }
