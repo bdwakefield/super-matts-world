@@ -23,11 +23,11 @@ public class Level extends FlxState
 	public static final HashMap<Integer, Level> levelSaves = new HashMap<Integer, Level>();
 
 	/** The next level to be loaded upon SwitchState to this class.*/
-	public static int nextLevel = R.raw.lvl_test;
+	protected static int nextLevel = R.raw.lvl_test;
 	/** The current level to already loaded in this class. */
-	public static int currentLevel = R.raw.lvl_jump_test;
+	protected static int currentLevel = R.raw.lvl_jump_test;
 	/** The label to start the player at in this class. start if not set. */
-	public static String startLabel;
+	protected static String startLabel;
 	/** Only set by LevelParser and incremented with power-ups.*/
 	public static float timeRemaining = 60;
 
@@ -69,7 +69,11 @@ public class Level extends FlxState
 		this.player.x = startPoint.x;
 		this.player.y = startPoint.y;
 
-		if (music != 0)
+		
+		/*
+		 * TODO play music
+		 */
+		if (music != 0 && false)
 			FlxG.playMusic(music);
 
 	
@@ -79,7 +83,19 @@ public class Level extends FlxState
 	}
 
 	/**
-	 * TODO COMMENT ME ROGER
+	 * 
+	 * Sets the nextLevel and startLabel static members.
+	 * 
+	 * 
+	 * PRE: nextLevelName is the name of the next level that is being switched to.
+	 * 				This is required, but can be the same name as the current level.
+	 * 		nextLevelLabel is the labeled point to with the Player will jump to in the next level.
+	 * 				string can be empty, it will default to the start label of the level
+	 * 				when level is opened.
+	 * 
+	 * POST: nextLevel addresses by nextLavelName is loaded as current FlxG.state,
+	 * 			 and the player is located at the nextLevelLabel. If the current "level" is a Level,
+	 * 				the current state is stored. 
 	 * 
 	 * @param nextLevelName
 	 * @param nextLevelLabel
@@ -88,6 +104,7 @@ public class Level extends FlxState
 	{
 		nextLevel = LevelParser.KEY_RESOURCE_ADDR.get(nextLevelName);
 
+		// only save Levels, not others such as MenuState
 		if (FlxG.state instanceof Level)
 			levelSaves.put(LevelParser.KEY_RESOURCE_ADDR.get(((Level)FlxG.state).name), ((Level)FlxG.state));
 
@@ -141,8 +158,8 @@ public class Level extends FlxState
 		{
 			public void Collide(FlxCore object1, FlxCore object2)
 			{
-				//player.kill();
-				Level.switchLevel("lvl_test3","");
+				player.kill();
+				//Level.switchLevel("lvl_test3","");
 			}
 		}
 		);

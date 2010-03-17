@@ -2,6 +2,7 @@ package collectables;
 
 import org.flixel.FlxBlock;
 import org.flixel.FlxCore;
+import org.flixel.FlxSound;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
 
@@ -14,6 +15,7 @@ public abstract class PowerUp extends FlxBlock
 	/** Type for a energy drink power-up */
 	public static final String TYPE_ENERGY_DRINK = "energy_drink";
 
+	protected FlxSound sound;
 	protected PowerUp(int X, int Y, int Width, int Height)
 	{
 		super(X, Y, Width, Height);
@@ -38,10 +40,12 @@ public abstract class PowerUp extends FlxBlock
 		{
 			p = new Cigarette(X, Y, 16, 16);
 			p.loadGraphic(R.drawable.cigarette);
+			p.sound = new FlxSound().loadEmbedded(R.raw.inhale);
 		}else if(TYPE_BEER.equals(type))
 		{
 			p = new Beer(X, Y, 16, 16);
 			p.loadGraphic(R.drawable.beer);
+			p.sound = new FlxSound().loadEmbedded(R.raw.pour);
 		}
 		else if(TYPE_ENERGY_DRINK.equals(type))
 			p = new EnergyDrink(X, Y, 16, 16);
@@ -69,6 +73,7 @@ public abstract class PowerUp extends FlxBlock
 		if(overlap && Core instanceof Player)
 		{
 			//-- kill the item and call the onCollect.
+			sound.play();
 			this.onCollect((Player)Core);
 			this.exists = false;
 		}
