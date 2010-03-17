@@ -54,6 +54,9 @@ higher 150 184
 #1500 1000 10 10 level3 door1
 
 
-#[powerup]
-# x y type
+[power_up]
+200 184 cigarette
+216 184 beer
+233 184 beer
+250 184 beer
 #need list of power ups!!
