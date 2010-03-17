@@ -5,7 +5,7 @@ import org.myname.flixeldemo.parsing.Level;
 
 public class Cigarette extends PowerUp
 {
-	public static float TIME_GAINED = 1F;
+	public static float TIME_GAINED = 15F;
 	
 	protected Cigarette(int X, int Y, int Width, int Height)
 	{
