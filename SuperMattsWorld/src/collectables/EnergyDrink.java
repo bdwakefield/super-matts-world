@@ -3,10 +3,10 @@ package collectables;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.parsing.Level;
 
-public final class EnergyDrink extends PowerUp {
+public final class EnergyDrink extends PowerUp
+{
+	public static float TIME_GAINED = 100F;
 
-public static float TIME_GAINED = 10F;
-	
 	protected EnergyDrink(int X, int Y, int Width, int Height)
 	{
 		super(X, Y, Width, Height);
