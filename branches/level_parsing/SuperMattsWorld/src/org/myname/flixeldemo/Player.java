@@ -102,6 +102,11 @@ public class Player extends FlxSprite
 		this.chunkies.restart();
 
 		//-- clear level saves so I am not always dead!!!
+		/* TODO
+		 * if implementing "lives", only clear current level and reset, so
+		 * Level.java will require a method to do this.
+		 * and only switch to menu when lives == 0
+		 */
 		Level.levelSaves.clear();
 
 		//-- Fade out for dramatic effect before
