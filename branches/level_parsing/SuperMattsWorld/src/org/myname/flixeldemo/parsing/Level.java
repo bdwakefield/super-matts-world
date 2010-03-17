@@ -45,6 +45,7 @@ public class Level extends FlxState
 	protected ArrayList<FlxBlock> stationaryBlocks = new ArrayList<FlxBlock>();
 	protected ArrayList<FlxBlock> hurtBlocks = new ArrayList<FlxBlock>();
 	protected ArrayList<FlxBlock> deathBlocks = new ArrayList<FlxBlock>();
+	protected ArrayList<FlxBlock> powerUps = new ArrayList<FlxBlock>();
 	protected FlxText hud;
 
 	public Level()
@@ -67,6 +68,7 @@ public class Level extends FlxState
 		Point startPoint = labels.containsKey(startLabel) ? labels.get(startLabel) : labels.get(DEFAULT_START_LABEL);
 		this.player.x = startPoint.x;
 		this.player.y = startPoint.y;
+
 		if (music != 0)
 			FlxG.playMusic(music);
 
@@ -167,7 +169,13 @@ public class Level extends FlxState
 		FlxG.overlapArrayList(jump, player);
 
 		/*
-		 * LEVEL TIMER
+		 * POWER UPS - just overlap these... on overlap they
+		 * will set exists to false and viola! Gone!
+		 */
+		FlxG.overlapArrayList(powerUps, player);
+
+		/*
+		 * LEVEL TIMER - TODO use methods.
 		 */
 		if(timeRemaining > 0)
 		{
@@ -210,6 +218,9 @@ public class Level extends FlxState
 		for(Iterator<FlxBlock> it = jump.iterator(); it.hasNext();)
 			super.add(it.next());
 
+		for(Iterator<FlxBlock> it = powerUps.iterator(); it.hasNext();)
+			super.add(it.next());
+
 		super.add(hud);
 	}
 
@@ -244,5 +255,6 @@ public class Level extends FlxState
 		this.height = level.height;
 		this.defaultTexture = level.defaultTexture;
 		this.music = level.music;
+		this.powerUps = level.powerUps;
 	}
 }

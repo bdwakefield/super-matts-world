@@ -16,6 +16,8 @@ import org.myname.flixeldemo.MovingBlock;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
 
+import collectables.PowerUp;
+
 import flash.geom.Point;
 
 /**
@@ -33,7 +35,6 @@ public final class LevelParser
 	/** Map for taking text resource names and converting them into the integer address value. */
 	public static final Map<String, Integer> KEY_RESOURCE_ADDR;
 	
-
 	static
 	{
 		HashMap<String, Integer> temp = new HashMap<String, Integer>();
@@ -58,7 +59,7 @@ public final class LevelParser
 		 * location in the Droid.
 		 */	
 
-		KEY_RESOURCE_ADDR = Collections.unmodifiableMap(temp);		
+		KEY_RESOURCE_ADDR = Collections.unmodifiableMap(temp);
 	}
 
 	public LevelParser(Level level)
@@ -260,7 +261,11 @@ public final class LevelParser
 					break;
 
 					case POWER_UP:
+						xInit = Integer.parseInt(strParts[0]);
+						yInit = Integer.parseInt(strParts[1]);
+						name = strParts[2];
 
+						level.powerUps.add(PowerUp.getInstance(xInit, yInit, name));
 					break;
 					
 					case MUSIC:
