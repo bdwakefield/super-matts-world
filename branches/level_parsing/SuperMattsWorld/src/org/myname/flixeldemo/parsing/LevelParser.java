@@ -30,7 +30,7 @@ import flash.geom.Point;
  */
 public final class LevelParser
 {
-	enum State{LEVEL, MIDDLE_GROUND, STATIONARY_BLOCK, MOVING_BLOCK, HURT_BLOCK, DEATH_BLOCK, ENEMY, LABEL, JUMP, POWER_UP, MUSIC, TIME, NONE}
+	enum State{LEVEL, MIDDLE_GROUND, STATIONARY_BLOCK, MOVING_BLOCK, HURT_BLOCK, DEATH_BLOCK, ENEMY, LABEL, JUMP, POWER_UP, MUSIC, TIME, TEXT, NONE}
 
 	/** Map for taking text resource names and converting them into the integer address value. */
 	public static final Map<String, Integer> KEY_RESOURCE_ADDR;
@@ -132,6 +132,10 @@ public final class LevelParser
 				{
 					state =State.MUSIC;
 					continue;
+				}else if(str.equalsIgnoreCase("[text]"))
+				{
+					state =State.TEXT;
+					continue;
 				}else if(str.equalsIgnoreCase("[time]"))
 				{
 					state =State.TIME;
@@ -144,7 +148,7 @@ public final class LevelParser
 				 */
 				String[] strParts = str.split("\\s+");
 				
-				String name, lvl_name;
+				String name, lvl_name, text;
 				int xInit, yInit, width, height,
 				maxXMovement, maxYMovement, horizSpeed, verticSpeed, texture;
 				switch(state)
@@ -276,7 +280,20 @@ public final class LevelParser
 					case TIME:
 						Level.timeRemaining = Float.parseFloat(strParts[0]);
 					
+					break;				
+					
+					case TEXT:
+						xInit = Integer.parseInt(strParts[0]);
+						yInit = Integer.parseInt(strParts[1]);
+						text = "";
+						for (int i = 2; i < strParts.length; i++)
+							text += strParts[i] + " ";
+						/*
+						 * TODO add to textBox for Storyboards
+						 */
+					
 					break;					
+
 
 					default:
 						throw new ParseException("F!", -1);
