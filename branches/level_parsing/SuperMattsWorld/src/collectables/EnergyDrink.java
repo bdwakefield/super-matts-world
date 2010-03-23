@@ -18,4 +18,10 @@ public final class EnergyDrink extends PowerUp
 	{
 		Level.timeRemaining += TIME_GAINED;
 	}
+
+	@Override
+	protected void playSound()
+	{
+		// TODO Auto-generated method stub
+	}
 }
