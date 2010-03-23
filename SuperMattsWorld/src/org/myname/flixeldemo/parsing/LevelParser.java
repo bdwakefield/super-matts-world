@@ -39,26 +39,33 @@ public final class LevelParser
 	{
 		HashMap<String, Integer> temp = new HashMap<String, Integer>();
 
+		/* TEXTURES */
 		temp.put("fire", R.drawable.fire);
 		temp.put("enemy", R.drawable.enemy);
 		temp.put("tech_tiles", R.drawable.tech_tiles);
 		temp.put("spaceman", R.drawable.spaceman);
 		temp.put("spike", R.drawable.spike);
 		temp.put("water", R.drawable.water);
+		temp.put("sand", R.drawable.sand);
+		temp.put("rock", R.drawable.rock);
+		temp.put("boulder", R.drawable.boulder);
 
+		/* LEVELS */
 		temp.put("lvl_test", R.raw.lvl_test);
 		temp.put("lvl_test2", R.raw.lvl_test2);
 		temp.put("lvl_test3", R.raw.lvl_test3);
 		temp.put("lvl_jump_test", R.raw.lvl_jump_test);
+
+		/* MUSIC */
 		temp.put("d3d", R.raw.d3d);
 		temp.put("death1", R.raw.death1);
 		temp.put("death2", R.raw.death2);
+		//temp.put("", value)
 		
 		/*
 		 * TODO - Add all resources that will be referenced as a memory
 		 * location in the Droid.
-		 */	
-
+		 */
 		KEY_RESOURCE_ADDR = Collections.unmodifiableMap(temp);
 	}
 
