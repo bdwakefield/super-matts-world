@@ -23,7 +23,7 @@ public class Player extends FlxSprite
 
 	private static final int PLAYER_RUN_SPEED = 180;
 	private static final float GRAVITY_ACCELERATION = 420; //-- 420
-	private static final float JUMP_ACCELERATION = 400; //-- 400
+	private static final float JUMP_ACCELERATION = 420; //-- 400
 
 	private static final FlxSound SOUND_DEATH = new FlxSound().loadEmbedded(R.raw.death1);
 	private static final FlxSound JUMP = new FlxSound().loadEmbedded(R.raw.jumpsfx);
@@ -46,8 +46,8 @@ public class Player extends FlxSprite
 		maxVelocity.y = JUMP_ACCELERATION;
 
 		addAnimation("idle", new ArrayList<Integer>(Arrays.asList(new Integer[] {0})));
-		addAnimation("run",  new ArrayList<Integer>(Arrays.asList(new Integer[] {1, 2})), 16);
-		addAnimation("jump",  new ArrayList<Integer>(Arrays.asList(new Integer[] {3})));
+		addAnimation("run",  new ArrayList<Integer>(Arrays.asList(new Integer[] {1, 2, 3})), 16);
+		addAnimation("jump",  new ArrayList<Integer>(Arrays.asList(new Integer[] {4})));
 		//addAnimation("idle_up",  new ArrayList<Integer>(Arrays.asList(new Integer[] {5})));
 		//addAnimation("run_up",  new ArrayList<Integer>(Arrays.asList(new Integer[] {6, 7, 8, 5})), 12);
 		//addAnimation("jump_up",  new ArrayList<Integer>(Arrays.asList(new Integer[] {9})));
