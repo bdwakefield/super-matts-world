@@ -227,7 +227,7 @@ public class Level extends FlxState
 			super.add(it.next());
 
 		super.add(player);
-		super.add(player.chunkies);
+		super.add(Player.chunkies);
 
 		for(Iterator<Enemy> it = enemies.iterator(); it.hasNext();)
 			super.add(it.next());

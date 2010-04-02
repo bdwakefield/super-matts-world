@@ -9,7 +9,7 @@ public final class Beer extends PowerUp
 {
 	public static float TIME_GAINED = 100F;
 
-	private static final FlxSound sound = new FlxSound().loadEmbedded(R.raw.pour);
+	private static final FlxSound sound = new FlxSound().loadEmbedded(R.raw.beersfx);
 
 	protected Beer(int X, int Y, int Width, int Height)
 	{

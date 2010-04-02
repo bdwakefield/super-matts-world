@@ -11,7 +11,6 @@ import java.util.Map;
 import org.flixel.FlxBlock;
 import org.myname.flixeldemo.BouncingEnemy;
 import org.myname.flixeldemo.DeathBlock;
-import org.myname.flixeldemo.Enemy;
 import org.myname.flixeldemo.GameView;
 import org.myname.flixeldemo.JumpBlock;
 import org.myname.flixeldemo.MovingBlock;
@@ -19,7 +18,6 @@ import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
 
 import collectables.PowerUp;
-
 import flash.geom.Point;
 
 /**

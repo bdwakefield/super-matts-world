@@ -17,4 +17,10 @@ public class FlixelDemo extends Activity
         
         setContentView(R.layout.main);
     }
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+	}
 }

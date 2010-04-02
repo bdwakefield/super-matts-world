@@ -17,7 +17,7 @@ public class GameView extends FlxGameView
 	public GameView(Context context, AttributeSet attrs)
 	{
 		super(
-			new FlxGame(320, 455, MenuState.class, context, R.class), 
+			new FlxGame(455, 320, MenuState.class, context, R.class), 
 			context, 
 			attrs
 		);

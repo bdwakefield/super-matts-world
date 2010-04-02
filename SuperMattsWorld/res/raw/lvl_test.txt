@@ -10,6 +10,11 @@
 lvl_test 8000 464 sand
 
 
+# TG 4-2-2010 Added music back in
+[music]
+music1
+
+
 [middle_ground]
 # types randomness [0 100] 
 
