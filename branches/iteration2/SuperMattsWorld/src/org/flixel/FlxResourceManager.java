@@ -20,7 +20,8 @@ public class FlxResourceManager
 		image.draw(bitmapData.getCanvas());
 		return bitmapData;
 	}
-	
+
+	@SuppressWarnings(value = {"all"})
 	static protected int getResource(String resourceClass, String name)
 	{
 		try 
