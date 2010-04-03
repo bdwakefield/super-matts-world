@@ -141,5 +141,23 @@ public class MovingBlock extends FlxBlock
 			}
 		}
 	}
+
+	@Override
+	public boolean collideY(FlxCore Core) {
+		final boolean ret = super.collideY(Core);
+
+		//-- If a collision occrured with the player and the player is on top of
+		//   the block.
+		if(ret && Core instanceof Player
+				&& this.y > Core.y)
+		{
+			//-- TODO needs to NOT move the player at the end points...
+			//   this is a Proof of Concept override that handles basic
+			//   user tag-along on MovingBlocks
+			Core.x += horizontalMovementDirection * horizontalMovementSpeed;
+		}
+		
+		return ret;
+	}
 }
 
