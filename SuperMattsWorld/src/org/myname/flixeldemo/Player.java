@@ -22,8 +22,8 @@ public class Player extends FlxSprite
 	private static final int PLAYER_HEIGHT_PX = 32;
 
 	private static final int PLAYER_RUN_SPEED = 180;
-	private static final float GRAVITY_ACCELERATION = 420; //-- 420
-	private static final float JUMP_ACCELERATION = 420; //-- 400
+	private static final float GRAVITY_ACCELERATION = 500; //-- 420 (600 seems best)
+	private static final float JUMP_ACCELERATION = 400; //-- 400
 
 	private static final FlxSound SOUND_DEATH = new FlxSound().loadEmbedded(R.raw.death1);
 	private static final FlxSound JUMP = new FlxSound().loadEmbedded(R.raw.jumpsfx);
@@ -57,12 +57,14 @@ public class Player extends FlxSprite
 	public void update()
 	{
 		acceleration.x = 0;
-		if(FlxG.keys.pressed(KeyEvent.KEYCODE_DPAD_LEFT) || FlxG.keys.justPressed(KeyEvent.KEYCODE_A))
+		//-- AJG oops (pressed not justPressed)
+		if(FlxG.keys.pressed(KeyEvent.KEYCODE_DPAD_LEFT) || FlxG.keys.pressed(KeyEvent.KEYCODE_A))
 		{
 			setFacing(LEFT);
 			acceleration.x = -drag.x;
 		}
-		else if(FlxG.keys.pressed(KeyEvent.KEYCODE_DPAD_RIGHT) || FlxG.keys.justPressed(KeyEvent.KEYCODE_D))
+		//-- AJG oops (pressed not justPressed)
+		else if(FlxG.keys.pressed(KeyEvent.KEYCODE_DPAD_RIGHT) || FlxG.keys.pressed(KeyEvent.KEYCODE_D))
 		{
 			setFacing(RIGHT);
 			acceleration.x = drag.x;
