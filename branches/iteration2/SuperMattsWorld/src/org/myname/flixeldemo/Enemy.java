@@ -5,19 +5,25 @@ import java.util.Arrays;
 
 import org.flixel.*;
 
-//A non-killable enemy that doesn't move
+//An enemy that moves sideways
 public class Enemy extends FlxSprite
 {	
-	private static final float GRAVITY_ACCELERATION = 420;
-	protected final int VELOCITY_AFTER_KILL = -150;
+	private static final float GRAVITY_ACCELERATION = 500;
+	protected final int VELOCITY_AFTER_HIT = -150;
+	protected static final float DAMAGE_FROM_PLAYER = 1;
 	private static final FlxSound yupyup = new FlxSound().loadEmbedded(R.raw.yup_yup);
 
+	//set to true if you want the enemy to be hurt by the player jumping on it
 	protected boolean killable = false;
+	//set to true if overriding the default sideways enemy movement
+	protected boolean doingSomethingElse = false;
 	protected float speed;
 
-	public Enemy(int startX, int startY, float horizontalSpeed, int SimpleGraphic)
+	public Enemy(int startX, int startY, float horizontalSpeed, int SimpleGraphic, boolean isKillable, float health)
 	{
 		super(startX, startY, SimpleGraphic, true);
+		this.killable = isKillable;
+		this.health = health;
 		this.speed = horizontalSpeed;
 		this.velocity.x = speed;
 		this.acceleration.y = GRAVITY_ACCELERATION;
@@ -39,6 +45,10 @@ public class Enemy extends FlxSprite
 		if(this.onScreen())
 		{
 			super.play("moving");
+			if(!doingSomethingElse)
+			{
+				this.velocity.x = speed;
+			}
 		}
 		else
 		{
@@ -49,39 +59,59 @@ public class Enemy extends FlxSprite
 
 	public boolean collideX(FlxCore core)
 	{
-		boolean collidedX = super.collideX(core);
-
-		//on a collision in the x direction, change directions
-		if(collidedX)
+		if(this.onScreen() && core.onScreen())
 		{
-			yupyup.play();
-			this.speed = -this.speed;
-			this.velocity.x = this.speed;
+			boolean collidedX = super.collideX(core);
+	
+			//on a collision in the x direction, change directions
+			if(collidedX)
+			{
+				yupyup.play();
+				this.speed = -this.speed;
+				this.velocity.x = this.speed;
+			}
+	
+			return collidedX;
 		}
-
-		return collidedX;
+		else
+		{
+			return false;
+		}
 	}
 	
 	public boolean overlaps(FlxCore Core)
 	{
-		boolean overlaps = super.overlaps(Core);
-		
-		//if the player overlaps the enemy
-		if(overlaps && Core.getClass() == Player.class)
+		if(this.onScreen() && Core.onScreen())
 		{
-			//check if player overlapped from the top
-			if(this.topCollision(Core) && this.killable)
+			boolean overlaps = super.overlaps(Core);
+			
+			//if the player overlaps the enemy
+			if(overlaps && Core instanceof Player)
 			{
-				this.kill();
-				this.exists = false;
-				((Player)Core).velocity.y = VELOCITY_AFTER_KILL;
+				//check if player overlapped from the top
+				if(this.topCollision(Core) && this.killable)
+				{
+					this.hurt(DAMAGE_FROM_PLAYER);
+					
+					if(!this.dead)
+					{
+						//if this was not the killing blow then we need to do a collide
+						//so that the objects are no longer overlapping
+						this.collideY(Core);
+					}
+					((Player)Core).velocity.y = VELOCITY_AFTER_HIT;
+				}
+				else
+				{
+					Core.kill();
+				}
 			}
-			else
-			{
-				Core.kill();
-			}
+			return overlaps;
 		}
-		return overlaps;
+		else
+		{
+			return false;
+		}
 	}
 	
 	private boolean topCollision(FlxCore Core)
@@ -102,10 +132,5 @@ public class Enemy extends FlxSprite
 		}
 		
 		return collision;
-	}
-	
-	public void kill()
-	{
-		super.kill();
 	}
 }

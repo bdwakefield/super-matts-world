@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.flixel.FlxBlock;
-import org.myname.flixeldemo.BouncingEnemy;
 import org.myname.flixeldemo.DeathBlock;
+import org.myname.flixeldemo.Enemy;
 import org.myname.flixeldemo.GameView;
 import org.myname.flixeldemo.JumpBlock;
 import org.myname.flixeldemo.MovingBlock;
@@ -251,21 +251,27 @@ public final class LevelParser
 						level.deathBlocks.add(new DeathBlock(xInit, yInit, width, texture));
 					break;
 
+					/*
+					 * All enemy types can now be classified as killable or not. Set the isKillable flag
+					 * to do this.
+					 * 
+					 * Enemies now have health. If the enemy is killable then this value must be set with
+					 * a positive number. Currently the player only causes 1 damage point when jumping on
+					 * enemy, so bear this in mind when choosing a health value.
+					 * 
+					 * If the enemy is not killable then the health value can be set to anything since
+					 * its heath will never be looked at.
+					 * 
+					 * isKillable and health are hard-coded here so I didn't have to update the level
+					 * text files.
+					 */
 					case ENEMY:
 						 xInit = Integer.parseInt(strParts[0]);
 						 yInit = Integer.parseInt(strParts[1]);
 						 horizSpeed = Integer.parseInt(strParts[2]);
 						 texture = KEY_RESOURCE_ADDR.get(strParts[3]);
 						 
-						 /*
-						  * 		----Temporary change for consistency----
-						  * 
-						  * Due to the redesign of the enemy classes, a BouncingEnemy
-						  * must be used here to have the same effect as the old version of Enemy.
-						  * The vertical speed is set to 0 so the enemy will only move horizontally.
-						  * If we used the current Enemy class, the enemy would not move horizontally at all.
-						  */
-						 level.enemies.add(new BouncingEnemy(xInit, yInit, horizSpeed, 0, texture));
+						 level.enemies.add(new Enemy(xInit, yInit, 0, texture, false, 1));
 						
 					break;
 
