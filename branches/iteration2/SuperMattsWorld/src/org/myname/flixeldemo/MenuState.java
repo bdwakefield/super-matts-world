@@ -11,12 +11,12 @@ public class MenuState extends FlxState
 {
 	public MenuState()
 	{
-		int titlex = 60;
-		int titley = 100;
+		final int titlex = FlxG.width >> 2;
+		final int titley = FlxG.height >> 2;
 		FlxText text = new FlxText(titlex,  titley, 250, "Super Matt's World!");
 		text.setSize(22);
 		super.add(text);
-		text = new FlxText(titlex + 10, titley + 100, 250, "Press the center DPad key to continue.");
+		text = new FlxText(titlex + 10, titley + 75, 250, "Press the center DPad key to continue.");
 		text.flicker(1F);
 		super.add(text);
 	}
@@ -24,7 +24,7 @@ public class MenuState extends FlxState
 	public void update()
 	{
 		super.update();
-		if (FlxG.keys.justPressed(KeyEvent.KEYCODE_DPAD_CENTER) || FlxG.keys.justPressed(KeyEvent.KEYCODE_ENTER))
+		if (FlxG.keys.pressed(KeyEvent.KEYCODE_DPAD_CENTER) || FlxG.keys.pressed(KeyEvent.KEYCODE_ENTER))
 			FlxG.switchState(Level.class);
 	}
 }
