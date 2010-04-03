@@ -1,6 +1,6 @@
 package org.myname.flixeldemo;
 
-//--A killable enemy that moves sideways. If the player is within MAXIMUM_DISTANCE then it will stop
+//--An enemy that moves sideways. If the player is within MAXIMUM_DISTANCE then it will stop
 //	moving and fire its missile left or right depending on the position of the player
 //--A ShootingEnemy contains a reference to the player. This is so that when the player is on screen, the 
 //	enemy will shoot toward the player
@@ -14,24 +14,22 @@ public class ShootingEnemy extends Enemy
 	protected final int MAXIMUM_DISTANCE = 200;
 	protected final int VELOCITY_AFTER_KILL = -150;
 	
-	public ShootingEnemy(int x, int y, float horizontalSpeed, Integer EnemyGraphic, Projectile ammo, Player player)
+	public ShootingEnemy(int x, int y, float horizontalSpeed, Integer EnemyGraphic, Projectile ammo, boolean isKillable, float health)
 	{
-		super(x, y, horizontalSpeed, EnemyGraphic);
-		
-		this.missile = ammo;
-		this.missleWidth = this.missile.width;
-		this.player = player;
-		this.killable = true;
-	}
-	
-	public ShootingEnemy(int x, int y, float horizontalSpeed, Integer EnemyGraphic, Projectile ammo)
-	{
-		super(x, y, horizontalSpeed, EnemyGraphic);
+		super(x, y, horizontalSpeed, EnemyGraphic, isKillable, health);
 		
 		this.missile = ammo;
 		this.missleWidth = this.missile.width;
 		this.player = null;
-		this.killable = true;
+	}
+	
+	public ShootingEnemy(int x, int y, float horizontalSpeed, Integer EnemyGraphic, Projectile ammo, boolean isKillable, float health, Player player)
+	{
+		super(x, y, horizontalSpeed, EnemyGraphic, isKillable, health);
+		
+		this.missile = ammo;
+		this.missleWidth = this.missile.width;
+		this.player = player;
 	}
 	
 	//Add a reference to the player if not done so in the constructor
@@ -51,6 +49,7 @@ public class ShootingEnemy extends Enemy
 										&& this.player.y + this.player.height >= this.y - MAXIMUM_DISTANCE; //player not too far up
 				if(playerInRange)
 				{
+					this.doingSomethingElse = true;
 					if(!this.missile.exists)
 					{
 						if(this.player.x < this.x)
@@ -69,13 +68,12 @@ public class ShootingEnemy extends Enemy
 				}
 				else
 				{
-					//player is not within range, so move horizontally
-					this.velocity.x = speed;
+					this.doingSomethingElse = false;
 				}
 			}
 			else
 			{
-				this.velocity.x = speed;
+				this.doingSomethingElse = false;
 			}		
 		}
 		super.update();

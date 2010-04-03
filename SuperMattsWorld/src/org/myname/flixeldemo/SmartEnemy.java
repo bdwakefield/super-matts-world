@@ -1,6 +1,6 @@
 package org.myname.flixeldemo;
 
-//--A killable enemy that moves sideways. If the player is within MAXIMUM_DISTANCE then it will move
+//--An enemy that moves sideways. If the player is within MAXIMUM_DISTANCE then it will move
 //	horizontally toward the player
 //--A SmartEnemy contains a reference to the player. This is so that when the player is on screen, the 
 //	enemy will move toward the player
@@ -10,18 +10,16 @@ public class SmartEnemy extends Enemy
 	protected final int VELOCITY_AFTER_KILL = -150;
 	protected final int MAXIMUM_DISTANCE = 200;
 	
-	public SmartEnemy(int x, int y, float horizontalSpeed, Integer Graphic)
+	public SmartEnemy(int x, int y, float horizontalSpeed, Integer Graphic, boolean isKillable, float health)
 	{
-		super(x, y, horizontalSpeed, Graphic);
+		super(x, y, horizontalSpeed, Graphic, isKillable, health);
 		this.player = null;
-		this.killable = true;
 	}
 	
-	public SmartEnemy(int x, int y, float horizontalSpeed, Integer Graphic, Player player)
+	public SmartEnemy(int x, int y, float horizontalSpeed, Integer Graphic, boolean isKillable, float health, Player player)
 	{
-		super(x, y, horizontalSpeed, Graphic);
+		super(x, y, horizontalSpeed, Graphic, isKillable, health);
 		this.player = player;
-		this.killable = true;
 	}
 	
 	//Add a reference to the player if not done so in the constructor
@@ -41,6 +39,7 @@ public class SmartEnemy extends Enemy
 										&& this.player.y + this.player.height >= this.y - MAXIMUM_DISTANCE; //player not too far up
 				if(playerInRange)
 				{
+					this.doingSomethingElse = true;
 					if(this.player.x < this.x)
 					{
 						//player to the left, so move left
@@ -59,12 +58,12 @@ public class SmartEnemy extends Enemy
 				}
 				else
 				{
-					this.velocity.x = speed;
+					this.doingSomethingElse = false;
 				}
 			}
 			else
 			{
-				this.velocity.x = speed;
+				this.doingSomethingElse = false;
 			}		
 		}
 		super.update();

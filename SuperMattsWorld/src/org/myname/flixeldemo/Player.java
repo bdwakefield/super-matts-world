@@ -122,13 +122,32 @@ public class Player extends FlxSprite
 	
 	public boolean collide(FlxCore Core)
 	{
-		boolean hx = super.collideX(Core);
-		boolean hy = super.collideY(Core);
-		
-		//Causes player to fall after hitting the bottom of a platform
-		if(hy && Core.hitCeiling())
-			velocity.y = JUMP_ACCELERATION;
-		
-		return hx || hy;
+		if(Core.onScreen())
+		{
+			boolean hx = super.collideX(Core);
+			boolean hy = super.collideY(Core);
+			
+			//Causes player to fall after hitting the bottom of a platform
+			if(hy && Core.hitCeiling())
+				velocity.y = JUMP_ACCELERATION;
+			
+			return hx || hy;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public boolean overalps(FlxCore Core)
+	{
+		if(Core.onScreen())
+		{
+			return super.overlaps(Core);
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
