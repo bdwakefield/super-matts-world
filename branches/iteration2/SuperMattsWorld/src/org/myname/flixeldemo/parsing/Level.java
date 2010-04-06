@@ -9,6 +9,7 @@ import org.flixel.FlxCollideListener;
 import org.flixel.FlxCore;
 import org.flixel.FlxG;
 import org.flixel.FlxState;
+import org.flixel.FlxText;
 import org.myname.flixeldemo.Enemy;
 import org.myname.flixeldemo.Hud;
 import org.myname.flixeldemo.Player;
@@ -46,8 +47,10 @@ public class Level extends FlxState
 	protected ArrayList<FlxBlock> hurtBlocks = new ArrayList<FlxBlock>();
 	protected ArrayList<FlxCore> deathBlocks = new ArrayList<FlxCore>();
 	protected ArrayList<FlxBlock> powerUps = new ArrayList<FlxBlock>();
+	
 	protected ArrayList<FlxCore> backgrounds = new ArrayList<FlxCore>();
 	protected ArrayList<FlxCore> middle_grounds = new ArrayList<FlxCore>();
+	protected ArrayList<FlxText> texts = new ArrayList<FlxText>();
 	protected Hud headsUp = new Hud();
 	
 	public Level()
@@ -219,6 +222,10 @@ public class Level extends FlxState
 		for(Iterator<FlxCore> it = backgrounds.iterator(); it.hasNext();)
 			super.add(it.next());
 
+		for(Iterator<FlxText> it = texts.iterator(); it.hasNext();)
+			super.add(it.next());
+
+		
 		for(Iterator<FlxCore> it = middle_grounds.iterator(); it.hasNext();)
 			super.add(it.next());
 		
@@ -259,7 +266,9 @@ public class Level extends FlxState
 	{
 		FlxG.follow(this.player, 2.5f);
 		FlxG.followAdjust(0.5f, 0.0f);
-		FlxG.followBounds(0, 0, this.width + 100, this.height + 100);
+		// Changed to stay within bounds of screen for storyboards
+		//FlxG.followBounds(0, 0, this.width + 100, this.height + 100);
+		FlxG.followBounds(0, 0, this.width, this.height);
 	}
 
 	/**
@@ -286,5 +295,6 @@ public class Level extends FlxState
 		this.headsUp = level.headsUp;
 		this.backgrounds = level.backgrounds;
 		this.middle_grounds = level.middle_grounds;
+		this.texts = level.texts;
 	}
 }
