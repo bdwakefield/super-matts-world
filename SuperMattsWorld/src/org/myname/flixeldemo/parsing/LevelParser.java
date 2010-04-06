@@ -44,31 +44,35 @@ public final class LevelParser
 		 */
 		HashMap<String, Integer> temp = new HashMap<String, Integer>();
 
-		/* TEXTURES */
+		/* TEXTURES (Tiled) */
 		temp.put("fire", R.drawable.fire);
-		temp.put("enemy", R.drawable.enemy);
-		temp.put("kenemy", R.drawable.enemy);
-		temp.put("tech_tiles", R.drawable.tech_tiles);
-		temp.put("matt", R.drawable.matt);
+		temp.put("tech_tiles", R.drawable.tech_tiles); // Needs to go away.
 		temp.put("spike", R.drawable.spike);
 		temp.put("water", R.drawable.water);
+		temp.put("water_deep", R.drawable.water_deep);
 		temp.put("flame", R.drawable.flame);
 		temp.put("sand", R.drawable.sand);
 		temp.put("rock", R.drawable.rock);
 		temp.put("boulder", R.drawable.boulder);
 
-		/* LEVELS */
+		/* CHARACTERS (Tiled) */
+		temp.put("matt", R.drawable.matt);
+		temp.put("enemy", R.drawable.enemy);
+		temp.put("kenemy", R.drawable.enemy);
+		temp.put("fish", R.drawable.fish);
+		temp.put("beach_goer", R.drawable.beach_goer);
+		temp.put("seaweed", R.drawable.seaweed); // -- ha ha seaweed is a
+													// character.
+		/* LEVELS (Text)*/
 		temp.put("lvl_test", R.raw.lvl_test);
 		temp.put("lvl_test2", R.raw.lvl_test2);
 		temp.put("lvl_test3", R.raw.lvl_test3);
 		temp.put("lvl_jump_test", R.raw.lvl_jump_test);
 
-		/* MUSIC */
-		//temp.put("d3d", R.raw.d3d);
+		/* MUSIC (mp3, ogg) */
 		temp.put("death1", R.raw.death1);
 		temp.put("death2", R.raw.death2);
 		temp.put("music1", R.raw.level1_music);
-		//temp.put("", value)
 		
 		/* BACKGORUND/MIDDLEGROUND */
 		temp.put("titlescreen", R.drawable.titlescreen);
