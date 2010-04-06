@@ -15,8 +15,16 @@ lvl_test 8000 464 sand
 music1
 
 
+[background]
+# x, y, width, height type
+0 0 854 480 titlescreen
+
 [middle_ground]
-# types randomness [0 100] 
+# x, y, width, height type
+0 352 96 64 tiki_bar
+240 288 64 64 umbrella
+440 256 64 64 palm_tree
+
 
 
 [stationary_block]
