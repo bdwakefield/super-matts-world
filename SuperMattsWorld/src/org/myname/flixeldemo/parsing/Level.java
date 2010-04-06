@@ -32,7 +32,7 @@ public class Level extends FlxState
 	public static float timeRemaining = 60;
 
 	protected int defaultTexture = R.drawable.tech_tiles;
-	protected int background;
+	//protected int background;
 	protected String name;
 	protected int width, height;
 	protected Player player;
@@ -46,6 +46,8 @@ public class Level extends FlxState
 	protected ArrayList<FlxBlock> hurtBlocks = new ArrayList<FlxBlock>();
 	protected ArrayList<FlxCore> deathBlocks = new ArrayList<FlxCore>();
 	protected ArrayList<FlxBlock> powerUps = new ArrayList<FlxBlock>();
+	protected ArrayList<FlxCore> backgrounds = new ArrayList<FlxCore>();
+	protected ArrayList<FlxCore> middle_grounds = new ArrayList<FlxCore>();
 	protected Hud headsUp = new Hud();
 	
 	public Level()
@@ -214,6 +216,13 @@ public class Level extends FlxState
 	 */
 	private void addComponentsToLayer()
 	{
+		for(Iterator<FlxCore> it = backgrounds.iterator(); it.hasNext();)
+			super.add(it.next());
+
+		for(Iterator<FlxCore> it = middle_grounds.iterator(); it.hasNext();)
+			super.add(it.next());
+		
+		
 		for(Iterator<FlxBlock> it = movingBlocks.iterator(); it.hasNext();)
 			super.add(it.next());
 
@@ -268,12 +277,14 @@ public class Level extends FlxState
 		this.hurtBlocks = level.hurtBlocks;
 		this.deathBlocks = level.deathBlocks;
 		this.name = level.name;
-		this.background = level.background;
+		//this.background = level.background;
 		this.width = level.width;
 		this.height = level.height;
 		this.defaultTexture = level.defaultTexture;
 		this.music = level.music;
 		this.powerUps = level.powerUps;
 		this.headsUp = level.headsUp;
+		this.backgrounds = level.backgrounds;
+		this.middle_grounds = level.middle_grounds;
 	}
 }

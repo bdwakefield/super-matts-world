@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.flixel.FlxBlock;
+import org.myname.flixeldemo.BackgroundBlock;
 import org.myname.flixeldemo.DeathBlock;
 import org.myname.flixeldemo.Enemy;
 import org.myname.flixeldemo.GameView;
@@ -30,7 +31,7 @@ import flash.geom.Point;
  */
 public final class LevelParser
 {
-	enum State{LEVEL, MIDDLE_GROUND, STATIONARY_BLOCK, MOVING_BLOCK, HURT_BLOCK, DEATH_BLOCK, ENEMY, LABEL, JUMP, POWER_UP, KENEMY, MUSIC, TIME, TEXT, NONE}
+	enum State{LEVEL, BACKGROUND ,MIDDLE_GROUND, STATIONARY_BLOCK, MOVING_BLOCK, HURT_BLOCK, DEATH_BLOCK, ENEMY, LABEL, JUMP, POWER_UP, KENEMY, MUSIC, TIME, TEXT, NONE}
 
 	/** Map for taking text resource names and converting them into the integer address value. */
 	public static final Map<String, Integer> KEY_RESOURCE_ADDR;
@@ -68,6 +69,12 @@ public final class LevelParser
 		temp.put("death2", R.raw.death2);
 		temp.put("music1", R.raw.level1_music);
 		//temp.put("", value)
+		
+		/* BACKGORUND/MIDDLEGROUND */
+		temp.put("titlescreen", R.drawable.titlescreen);
+		temp.put("tiki_bar", R.drawable.tiki_bar);
+		temp.put("umbrella", R.drawable.umbrella);
+		temp.put("palm_tree", R.drawable.palm_tree);
 
 		KEY_RESOURCE_ADDR = Collections.unmodifiableMap(temp);
 	}
@@ -100,6 +107,10 @@ public final class LevelParser
 				if(str.equalsIgnoreCase("[level]"))
 				{
 					state = State.LEVEL;
+					continue;
+				}else if(str.equalsIgnoreCase("[background]"))
+				{				
+					state = State.BACKGROUND;
 					continue;
 				}else if(str.equalsIgnoreCase("[middle_ground]"))
 				{				
@@ -173,12 +184,30 @@ public final class LevelParser
 						level.height = Integer.parseInt(strParts[2]);
 						level.defaultTexture = KEY_RESOURCE_ADDR.get(strParts[3]);
 
-						if(strParts.length == 5)
-							level.background = KEY_RESOURCE_ADDR.get(strParts[4]);
+//						if(strParts.length == 5)
+//							level.background = KEY_RESOURCE_ADDR.get(strParts[4]);
 						
 					break;
 
+					case BACKGROUND:
+						xInit = Integer.parseInt(strParts[0]);
+						yInit = Integer.parseInt(strParts[1]);
+						width = Integer.parseInt(strParts[2]);
+						height = Integer.parseInt(strParts[3]);
+						texture = KEY_RESOURCE_ADDR.get(strParts[4]);
+						level.backgrounds.add(new BackgroundBlock(xInit, yInit, width, height).loadGraphic(texture));
+						
+						
+					break;	
+					
+					
 					case MIDDLE_GROUND:
+						xInit = Integer.parseInt(strParts[0]);
+						yInit = Integer.parseInt(strParts[1]);
+						width = Integer.parseInt(strParts[2]);
+						height = Integer.parseInt(strParts[3]);
+						texture = KEY_RESOURCE_ADDR.get(strParts[4]);
+						level.middle_grounds.add(new BackgroundBlock(xInit, yInit, width, height).loadGraphic(texture));
 						
 					break;
 
