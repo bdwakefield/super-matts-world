@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.flixel.FlxBlock;
+import org.flixel.FlxG;
 import org.myname.flixeldemo.BackgroundBlock;
 import org.myname.flixeldemo.DeathBlock;
 import org.myname.flixeldemo.Enemy;
@@ -17,7 +18,9 @@ import org.myname.flixeldemo.JumpBlock;
 import org.myname.flixeldemo.MovingBlock;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
+import org.myname.flixeldemo.Text;
 
+import android.graphics.Color;
 import collectables.PowerUp;
 import flash.geom.Point;
 
@@ -68,17 +71,23 @@ public final class LevelParser
 		temp.put("lvl_test2", R.raw.lvl_test2);
 		temp.put("lvl_test3", R.raw.lvl_test3);
 		temp.put("lvl_jump_test", R.raw.lvl_jump_test);
-
-		/* MUSIC (mp3, ogg) */
+		temp.put("lvl_story_test", R.raw.lvl_story_test);
+		temp.put("lvl_story_test2", R.raw.lvl_story_test2);
+		temp.put("lvl_story_test3", R.raw.lvl_story_test3);
+		
+		/* MUSIC */
+		//temp.put("d3d", R.raw.d3d);
 		temp.put("death1", R.raw.death1);
 		temp.put("death2", R.raw.death2);
 		temp.put("music1", R.raw.level1_music);
 		
-		/* BACKGORUND/MIDDLEGROUND */
+		/* BACKGROUND/MIDDLEGROUND */
 		temp.put("titlescreen", R.drawable.titlescreen);
 		temp.put("tiki_bar", R.drawable.tiki_bar);
 		temp.put("umbrella", R.drawable.umbrella);
 		temp.put("palm_tree", R.drawable.palm_tree);
+		temp.put("story_test",R.drawable.story_test);
+		temp.put("story_test2",R.drawable.story_test2);
 
 		KEY_RESOURCE_ADDR = Collections.unmodifiableMap(temp);
 	}
@@ -351,12 +360,33 @@ public final class LevelParser
 					case TEXT:
 						xInit = Integer.parseInt(strParts[0]);
 						yInit = Integer.parseInt(strParts[1]);
+						String color = strParts[2];
+						int fontColor = Color.BLACK;
+						if (color.equalsIgnoreCase("blue")){
+							fontColor = Color.BLUE;
+						}else if (color.equalsIgnoreCase("green")){
+							fontColor = Color.GREEN;
+						}else if (color.equalsIgnoreCase("yellow")){
+							fontColor = Color.YELLOW;
+						}else if (color.equalsIgnoreCase("red")){
+							fontColor = Color.RED;
+						}else if (color.equalsIgnoreCase("white")){
+							fontColor = Color.WHITE;
+						}
+						
+						int size = Integer.parseInt(strParts[3]);
 						text = "";
-						for (int i = 2; i < strParts.length; i++)
+						for (int i = 4; i < strParts.length; i++)
 							text += strParts[i] + " ";
 						/*
 						 * TODO add to textBox for Storyboards
+						 * 
 						 */
+						Text tempText = new Text(xInit, yInit, FlxG.width);
+						tempText.setText(text);
+						tempText.setSize(size);
+						tempText.setColor(fontColor);
+						level.texts.add(tempText);
 					
 					break;					
 
