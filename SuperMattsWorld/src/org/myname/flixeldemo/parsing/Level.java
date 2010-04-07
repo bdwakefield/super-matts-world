@@ -10,11 +10,12 @@ import org.flixel.FlxCore;
 import org.flixel.FlxG;
 import org.flixel.FlxState;
 import org.flixel.FlxText;
-import org.myname.flixeldemo.Enemy;
 import org.myname.flixeldemo.Hud;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
 
+import enemies.Enemy;
+import enemies.Projectile;
 import flash.geom.Point;
 
 public class Level extends FlxState
@@ -39,6 +40,7 @@ public class Level extends FlxState
 	protected Player player;
 	protected int music = 0;
 	protected ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	protected ArrayList<Projectile> enemyMissiles = new ArrayList<Projectile>();
 	protected HashMap<String, Point> labels = new HashMap<String, Point>();
 	//-- TODO needs a container Object for inner variables.
 	protected ArrayList<FlxBlock> jump = new ArrayList<FlxBlock>();
@@ -185,6 +187,12 @@ public class Level extends FlxState
 			{}
 		}		
 		);
+		
+		/*
+		 * ENEMY PROJECTILE COLLISIONS
+		 */
+		FlxG.collideArrayLists(stationaryBlocks, enemyMissiles);
+		FlxG.collideArrayList(enemyMissiles, player);
 
 		/*
 		 * JUMP BLOCKS - have to trigger the overridden overlaps function.
@@ -247,6 +255,11 @@ public class Level extends FlxState
 
 		for(Iterator<Enemy> it = enemies.iterator(); it.hasNext();)
 			super.add(it.next());
+		
+		for(Projectile p : enemyMissiles)
+		{
+			super.add(p);
+		}
 
 		for(Iterator<FlxBlock> it = jump.iterator(); it.hasNext();)
 			super.add(it.next());

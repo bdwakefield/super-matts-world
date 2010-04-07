@@ -12,7 +12,6 @@ import org.flixel.FlxBlock;
 import org.flixel.FlxG;
 import org.myname.flixeldemo.BackgroundBlock;
 import org.myname.flixeldemo.DeathBlock;
-import org.myname.flixeldemo.Enemy;
 import org.myname.flixeldemo.GameView;
 import org.myname.flixeldemo.JumpBlock;
 import org.myname.flixeldemo.MovingBlock;
@@ -22,6 +21,9 @@ import org.myname.flixeldemo.Text;
 
 import android.graphics.Color;
 import collectables.PowerUp;
+import enemies.EnemyType;
+import enemies.ShootingEnemy;
+import enemies.SmartEnemy;
 import flash.geom.Point;
 
 /**
@@ -186,7 +188,7 @@ public final class LevelParser
 				 */
 				String[] strParts = str.split("\\s+");
 				
-				String name, lvl_name, text;
+				String name, lvl_name, text, enemy_type;
 				int xInit, yInit, width, height,
 				maxXMovement, maxYMovement, horizSpeed, verticSpeed, texture;
 				switch(state)
@@ -293,27 +295,12 @@ public final class LevelParser
 						level.deathBlocks.add(new DeathBlock(xInit, yInit, width, texture));
 					break;
 
-					/*
-					 * All enemy types can now be classified as killable or not. Set the isKillable flag
-					 * to do this.
-					 * 
-					 * Enemies now have health. If the enemy is killable then this value must be set with
-					 * a positive number. Currently the player only causes 1 damage point when jumping on
-					 * enemy, so bear this in mind when choosing a health value.
-					 * 
-					 * If the enemy is not killable then the health value can be set to anything since
-					 * its heath will never be looked at.
-					 * 
-					 * isKillable and health are hard-coded here so I didn't have to update the level
-					 * text files.
-					 */
 					case ENEMY:
 						 xInit = Integer.parseInt(strParts[0]);
 						 yInit = Integer.parseInt(strParts[1]);
-						 horizSpeed = Integer.parseInt(strParts[2]);
-						 texture = KEY_RESOURCE_ADDR.get(strParts[3]);
-						 
-						 level.enemies.add(new Enemy(xInit, yInit, 0, texture, false, 1));
+						 enemy_type = strParts[2];
+
+						 level.enemies.add(EnemyType.getInstance(xInit, yInit, enemy_type));
 						
 					break;
 
@@ -401,6 +388,21 @@ public final class LevelParser
 			player.x = p.x;
 			player.y = p.y;
 			level.player = player;
+			
+			//Need to add a reference to the player to smart and shooting enemies so that they will respond to the player
+			for(int i = 0; i < level.enemies.size(); i++)
+			{
+				if(level.enemies.get(i).getClass() == SmartEnemy.class)
+				{
+					((SmartEnemy)level.enemies.get(i)).setPlayer(player);
+				}
+				else if(level.enemies.get(i).getClass() == ShootingEnemy.class)
+				{
+					((ShootingEnemy)level.enemies.get(i)).setPlayer(player);
+					//need to add the shooting enemy's projectile to the level
+					level.enemyMissiles.add(((ShootingEnemy)level.enemies.get(i)).getProjectile());
+				}
+			}
 			
 		}catch(Throwable ioe)
 		{

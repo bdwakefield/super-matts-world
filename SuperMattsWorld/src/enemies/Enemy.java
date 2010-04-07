@@ -1,9 +1,11 @@
-package org.myname.flixeldemo;
+package enemies;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.flixel.*;
+import org.myname.flixeldemo.Player;
+import org.myname.flixeldemo.R;
 
 //An enemy that moves sideways
 public class Enemy extends FlxSprite
@@ -27,6 +29,15 @@ public class Enemy extends FlxSprite
 		this.speed = horizontalSpeed;
 		this.velocity.x = speed;
 		this.acceleration.y = GRAVITY_ACCELERATION;
+		
+		if(speed >=0)
+		{
+			setFacing(LEFT);
+		}
+		else
+		{
+			setFacing(RIGHT);
+		}
 		
 		//Get the number of frames for the animation
 		int orininalImageWidth = (FlxResourceManager.getImage(SimpleGraphic)).width;
@@ -66,9 +77,17 @@ public class Enemy extends FlxSprite
 			//on a collision in the x direction, change directions
 			if(collidedX)
 			{
-				yupyup.play();
+				//yupyup.play();
 				this.speed = -this.speed;
 				this.velocity.x = this.speed;
+				if(this.speed >= 0)
+				{
+					setFacing(LEFT);
+				}
+				else
+				{
+					setFacing(RIGHT);
+				}
 			}
 	
 			return collidedX;
@@ -95,9 +114,9 @@ public class Enemy extends FlxSprite
 					
 					if(!this.dead)
 					{
-						//if this was not the killing blow then we need to do a collide
+						//if this was not the killing blow then we need to move the player above the enemy
 						//so that the objects are no longer overlapping
-						this.collideY(Core);
+						Core.y = this.y - Core.height;
 					}
 					((Player)Core).velocity.y = VELOCITY_AFTER_HIT;
 				}

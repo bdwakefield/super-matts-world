@@ -1,4 +1,6 @@
-package org.myname.flixeldemo;
+package enemies;
+
+import org.myname.flixeldemo.Player;
 
 //--An enemy that moves sideways. If the player is within MAXIMUM_DISTANCE then it will stop
 //	moving and fire its missile left or right depending on the position of the player
@@ -38,6 +40,11 @@ public class ShootingEnemy extends Enemy
 		this.player = player;
 	}
 	
+	public Projectile getProjectile()
+	{
+		return this.missile;
+	}
+	
 	public void update()
 	{
 		if(this.onScreen())
@@ -56,11 +63,15 @@ public class ShootingEnemy extends Enemy
 						{
 							//player is to the left, so shoot left
 							this.missile.shoot((int)this.x - missleWidth, (int)this.y, -MAX_MISSILE_VELOCITY, -MISSILE_VERTICAL_VELOCITY);
+							
+							setFacing(RIGHT);
 						}
 						else
 						{
 							//player is to the right, so shoot right
 							this.missile.shoot((int)this.x + this.width + missleWidth, (int)this.y, MAX_MISSILE_VELOCITY, -MISSILE_VERTICAL_VELOCITY);
+							
+							setFacing(LEFT);
 						}
 					}
 					//don't move while shooting
