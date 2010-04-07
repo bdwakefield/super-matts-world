@@ -41,7 +41,7 @@ umbrella 0
 
 [enemy]
 #x, y, speed, type
-850 240 50 enemy
+850 240 fish
 
 [label]
 #name x y  ... start is required

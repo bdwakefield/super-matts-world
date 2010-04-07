@@ -1,7 +1,8 @@
-package org.myname.flixeldemo;
+package enemies;
 
 import org.flixel.FlxCore;
 import org.flixel.FlxSprite;
+import org.myname.flixeldemo.Player;
 
 //A basic projectile that will kill a player on contact
 public class Projectile extends FlxSprite

@@ -1,4 +1,5 @@
-package org.myname.flixeldemo;
+package enemies;
+
 
 //--An enemy that bounces while moving sideways
 public class BouncingEnemy extends Enemy

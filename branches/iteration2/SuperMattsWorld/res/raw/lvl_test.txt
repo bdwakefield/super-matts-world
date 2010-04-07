@@ -109,27 +109,30 @@ music1
 
 
 [enemy]
-#x, y, horizontal speed, type
+#GH 4-7-10 enemies now have a new format. 
+#currently available values for type would be fish, beach_goer, student and teacher
+#x, y, type
 #page 1
-416 368 0 enemy
-576 368 0 enemy
+416 368 fish
+576 368 fish
 #page 2
-736 384 0 enemy
+736 384 fish
 #page 3
-1616 384 15 enemy
-1664 384 15 enemy
-1840 224 15 enemy
+#GH 4-7-10 set these to student an teacher rather than fish just as an example for now
+1616 384 student
+1664 384 teacher
+1840 224 fish
 #page 4
-2160 384 0 enemy
-2336 304 0 enemy
+2160 384 fish
+2336 304 fish
 #page 5
-2896 272 15 enemy 
-2960 272 15 enemy
-3040 176 0 enemy
-3104 384 15 enemy
+2896 272 fish 
+2960 272 fish
+3040 176 fish
+3104 384 fish
 #page 6
-3568 384 0 enemy
-3696 96 0 enemy
+3568 384 fish
+3696 96 fish
 
 [label]
 #name x y  ... start is required

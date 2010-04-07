@@ -1,4 +1,6 @@
-package org.myname.flixeldemo;
+package enemies;
+
+import org.myname.flixeldemo.Player;
 
 //--An enemy that moves sideways. If the player is within MAXIMUM_DISTANCE then it will move
 //	horizontally toward the player
@@ -7,18 +9,21 @@ package org.myname.flixeldemo;
 public class SmartEnemy extends Enemy
 {
 	protected Player player;
+	protected float runningSpeed;
 	protected final int VELOCITY_AFTER_KILL = -150;
 	protected final int MAXIMUM_DISTANCE = 200;
 	
 	public SmartEnemy(int x, int y, float horizontalSpeed, Integer Graphic, boolean isKillable, float health)
 	{
 		super(x, y, horizontalSpeed, Graphic, isKillable, health);
+		runningSpeed = speed + 20;
 		this.player = null;
 	}
 	
 	public SmartEnemy(int x, int y, float horizontalSpeed, Integer Graphic, boolean isKillable, float health, Player player)
 	{
 		super(x, y, horizontalSpeed, Graphic, isKillable, health);
+		runningSpeed = speed + 20;
 		this.player = player;
 	}
 	
@@ -40,15 +45,18 @@ public class SmartEnemy extends Enemy
 				if(playerInRange)
 				{
 					this.doingSomethingElse = true;
-					if(this.player.x < this.x)
+					float centerOfPlayer = this.player.x + (this.player.width / 2);
+					if(centerOfPlayer < this.x)
 					{
-						//player to the left, so move left
-						this.velocity.x = -Math.abs(speed);
+						//center of player to the left of this, so move left
+						this.velocity.x = -Math.abs(runningSpeed);
+						this.setFacing(RIGHT);
 					}
-					else if(this.player.x > this.x)
+					else if(centerOfPlayer > this.x + this.width)
 					{
-						//player to the right, so move right
-						this.velocity.x = Math.abs(speed);
+						// center of player to the right of this, so move right
+						this.velocity.x = Math.abs(runningSpeed);
+						this.setFacing(LEFT);
 					}
 					else
 					{
