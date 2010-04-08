@@ -34,7 +34,7 @@ public class Player extends FlxSprite
 	.setYVelocity(-200.0f, 0.0f)
 	.setRotation(-720, 720)
 	.setGravity(400f)
-	.createSprites(R.drawable.cigarette);
+	.createSprites(R.drawable.giblets);
 
 	public Player()
 	{
@@ -54,6 +54,7 @@ public class Player extends FlxSprite
 		//addAnimation("jump_down",  new ArrayList<Integer>(Arrays.asList(new Integer[] {10})));
 	}
 
+	@Override
 	public void update()
 	{
 		acceleration.x = 0;
@@ -91,6 +92,7 @@ public class Player extends FlxSprite
 		super.update();
 	}
 
+	@Override
 	public void kill()
 	{
 		super.kill();
@@ -119,7 +121,8 @@ public class Player extends FlxSprite
 		}
 		);
 	}
-	
+
+	@Override
 	public boolean collide(FlxCore Core)
 	{
 		if(Core.onScreen())
@@ -132,18 +135,6 @@ public class Player extends FlxSprite
 				velocity.y = JUMP_ACCELERATION;
 			
 			return hx || hy;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	
-	public boolean overalps(FlxCore Core)
-	{
-		if(Core.onScreen())
-		{
-			return super.overlaps(Core);
 		}
 		else
 		{
