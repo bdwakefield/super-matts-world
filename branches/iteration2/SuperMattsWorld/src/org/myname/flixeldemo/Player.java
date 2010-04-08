@@ -15,6 +15,9 @@ import android.view.KeyEvent;
 
 public class Player extends FlxSprite
 {
+	public static final int HEALTH_MATT = 1;
+	public static final int HEALTH_STEVE = 2;
+
 	protected static final int PLAYER_START_X = 10;
 	private static final int PLAYER_START_Y = 640-230;
 
@@ -28,8 +31,16 @@ public class Player extends FlxSprite
 	private static final FlxSound SOUND_DEATH = new FlxSound().loadEmbedded(R.raw.death1);
 	private static final FlxSound JUMP = new FlxSound().loadEmbedded(R.raw.jumpsfx);
 
+	private static final String MATT_IDLE = "idle";
+	private static final String MATT_RUN = "run";
+	private static final String MATT_JUMP = "jump";
+
+	private static final String STEVE_IDLE = "idle_s";
+	private static final String STEVE_RUN = "run_s";
+	private static final String STEVE_JUMP = "jump_s";
+
 	/* Add to state! */
-	public static final FlxEmitter chunkies = new FlxEmitter(0, 0, -1.5f)
+	public static final FlxEmitter CHUNKIES = new FlxEmitter(0, 0, -1.5f)
 	.setXVelocity(-150.0f, 150.0f)
 	.setYVelocity(-200.0f, 0.0f)
 	.setRotation(-720, 720)
@@ -45,13 +56,13 @@ public class Player extends FlxSprite
 		maxVelocity.x = PLAYER_RUN_SPEED;
 		maxVelocity.y = JUMP_ACCELERATION;
 
-		addAnimation("idle", new ArrayList<Integer>(Arrays.asList(new Integer[] {0})));
-		addAnimation("run",  new ArrayList<Integer>(Arrays.asList(new Integer[] {1, 2, 3})), 16);
-		addAnimation("jump",  new ArrayList<Integer>(Arrays.asList(new Integer[] {4})));
-		//addAnimation("idle_up",  new ArrayList<Integer>(Arrays.asList(new Integer[] {5})));
-		//addAnimation("run_up",  new ArrayList<Integer>(Arrays.asList(new Integer[] {6, 7, 8, 5})), 12);
-		//addAnimation("jump_up",  new ArrayList<Integer>(Arrays.asList(new Integer[] {9})));
-		//addAnimation("jump_down",  new ArrayList<Integer>(Arrays.asList(new Integer[] {10})));
+		addAnimation(MATT_IDLE, new ArrayList<Integer>(Arrays.asList(new Integer[] {0})));
+		addAnimation(MATT_RUN,  new ArrayList<Integer>(Arrays.asList(new Integer[] {1, 2, 3})), 16);
+		addAnimation(MATT_JUMP,  new ArrayList<Integer>(Arrays.asList(new Integer[] {4})));
+
+		addAnimation(STEVE_IDLE, new ArrayList<Integer>(Arrays.asList(new Integer[] {5})));
+		addAnimation(STEVE_RUN,  new ArrayList<Integer>(Arrays.asList(new Integer[] {6, 7, 8})), 16);
+		addAnimation(STEVE_JUMP,  new ArrayList<Integer>(Arrays.asList(new Integer[] {9})));
 	}
 
 	@Override
@@ -78,15 +89,15 @@ public class Player extends FlxSprite
 
 		if(velocity.y != 0)
 		{
-			play("jump");
+			play(this.health == HEALTH_MATT ? MATT_JUMP : STEVE_JUMP);
 		}
 		else if(velocity.x == 0)
 		{
-			play("idle");
+			play(this.health == HEALTH_MATT ? MATT_IDLE : STEVE_IDLE);
 		}
 		else
 		{
-			play("run");
+			play(this.health == HEALTH_MATT ? MATT_RUN : STEVE_RUN);
 		}
 
 		super.update();
@@ -98,9 +109,13 @@ public class Player extends FlxSprite
 		super.kill();
 
 		SOUND_DEATH.play();
-		chunkies.x = this.x + (this.width>>1);
-		chunkies.y = this.y + (this.height>>1);
-		chunkies.restart();
+		CHUNKIES.x = this.x + (this.width>>1);
+		CHUNKIES.y = this.y + (this.height>>1);
+
+		//-- AJG Load giblets on death. This cannot be statically added due to the need
+		//   to add to the FlxG current state and bitmap cache.
+		CHUNKIES.createSprites(R.drawable.giblets);
+		CHUNKIES.restart();
 
 		//-- clear level saves so I am not always dead!!!
 		/* TODO
