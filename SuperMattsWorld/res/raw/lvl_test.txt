@@ -12,7 +12,7 @@ lvl_test 8000 464 sand
 
 # TG 4-2-2010 Added music back in
 [music]
-music1
+level1_music
 
 
 [background]
@@ -24,8 +24,7 @@ music1
 0 352 96 64 tiki_bar
 240 288 64 64 umbrella
 440 256 64 64 palm_tree
-
-
+50 200 64 64 cloud_large
 
 [stationary_block]
 # x, y, width, height ... optionals: type
