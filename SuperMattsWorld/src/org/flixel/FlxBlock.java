@@ -63,6 +63,8 @@ public class FlxBlock extends FlxCore
 	//@desc		Draws this block
 	public void render()
 	{
+		if(!this.onScreen())
+			return;
 		super.render();
 		getScreenXY(_p);
 		int opx = (int) _p.x;
