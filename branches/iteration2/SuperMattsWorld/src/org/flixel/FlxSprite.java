@@ -299,7 +299,7 @@ public void update()
 //@desc		Called by game loop, blits current frame of animation to the screen (and handles rotation)
 public void render()
 {
-	if(!visible)
+	if(!visible || !this.onScreen())
 		return;
 	getScreenXY(_p);
 	
