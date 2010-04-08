@@ -17,7 +17,7 @@ level1_music
 
 [background]
 # x, y, width, height type
-0 0 854 480 titlescreen
+0 -40 8000 900 background_beach
 
 [middle_ground]
 # x, y, width, height type
@@ -39,7 +39,7 @@ level1_music
 1248 384 32 32
 #page 3
 1280 416 144 200
-1392 336 32 80
+1392 352 32 64 rock
 1520 416 400 200  
 1520 288 48 128
 1728 384 32 32
@@ -47,12 +47,12 @@ level1_music
 1824 240 16 16
 1904 240 16 16
 #page 4
-1920 416 96 20
-2064 432 16 200
-2064 416 16 15 rock
-2160 432 32 200
-2150 416 32 16 rock
-2272 464 160 200
+1920 416 96 160
+2064 432 16 32
+2064 416 16 16 rock
+2160 432 32 32
+2160 416 32 16 rock 
+2272 448 160 200
 2272 336 16 112
 2336 336 96 112
 #page 5
@@ -97,8 +97,8 @@ level1_music
 #page 3
 1424 448 96 96 water
 #page 4
-2016 464 256 100 water
-2432 464 128 100 water
+2016 448 256 16 water
+2432 448 128 16 water
 #page 5
 2560 448 320 100 water
 #page 6
@@ -118,8 +118,8 @@ level1_music
 736 384 fish
 #page 3
 #GH 4-7-10 set these to student an teacher rather than fish just as an example for now
-1616 384 student
-1664 384 teacher
+1616 384 beach_goer
+1664 384 beach_goer
 1840 224 fish
 #page 4
 2160 384 fish
@@ -135,7 +135,7 @@ level1_music
 
 [label]
 #name x y  ... start is required
-start 32 350
+start 1986 384
 test 256 288
 testtwo 450 200
 
