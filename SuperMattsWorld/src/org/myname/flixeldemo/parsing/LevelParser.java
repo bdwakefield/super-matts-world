@@ -20,6 +20,7 @@ import org.myname.flixeldemo.R;
 import org.myname.flixeldemo.Text;
 
 import android.graphics.Color;
+import android.util.Log;
 import collectables.PowerUp;
 import enemies.EnemyType;
 import enemies.ShootingEnemy;
@@ -36,9 +37,15 @@ import flash.geom.Point;
  */
 public final class LevelParser
 {
-	enum State{LEVEL, BACKGROUND ,MIDDLE_GROUND, STATIONARY_BLOCK, MOVING_BLOCK, HURT_BLOCK, DEATH_BLOCK, ENEMY, LABEL, JUMP, POWER_UP, KENEMY, MUSIC, TIME, TEXT, NONE}
+	private static final String TAG = "MattWorldLevelParser";
 
-	/** Map for taking text resource names and converting them into the integer address value. */
+	enum State{LEVEL, BACKGROUND ,MIDDLE_GROUND, STATIONARY_BLOCK,
+		MOVING_BLOCK, HURT_BLOCK, DEATH_BLOCK, ENEMY, LABEL, JUMP, POWER_UP, KENEMY, MUSIC, TIME, TEXT, NONE}
+
+	/** 
+	 * Map for taking text resource names and converting them into the integer address value.
+	 * Take not that no sound effects are stored in this map. they should be stored with the objects that use them.
+	 */
 	public static final Map<String, Integer> KEY_RESOURCE_ADDR;
 	
 	static
@@ -59,6 +66,7 @@ public final class LevelParser
 		temp.put("sand", R.drawable.sand);
 		temp.put("rock", R.drawable.rock);
 		temp.put("boulder", R.drawable.boulder);
+		temp.put("invisible", R.drawable.invisible);
 
 		/* CHARACTERS (Tiled) */
 		temp.put("matt", R.drawable.matt);
@@ -78,16 +86,25 @@ public final class LevelParser
 		temp.put("lvl_story_test3", R.raw.lvl_story_test3);
 		
 		/* MUSIC */
-		//temp.put("d3d", R.raw.d3d);
 		temp.put("death1", R.raw.death1);
 		temp.put("death2", R.raw.death2);
-		temp.put("music1", R.raw.level1_music);
+		temp.put("level1_music", R.raw.level1_music);
 		
 		/* BACKGROUND/MIDDLEGROUND */
 		temp.put("titlescreen", R.drawable.titlescreen);
 		temp.put("tiki_bar", R.drawable.tiki_bar);
 		temp.put("umbrella", R.drawable.umbrella);
 		temp.put("palm_tree", R.drawable.palm_tree);
+		temp.put("cloud",R.drawable.cloud);
+		temp.put("cloud_large",R.drawable.cloud_large);
+		temp.put("locker", R.drawable.lockers);
+		temp.put("locker_large", R.drawable.lockers_large);
+		temp.put("car", R.drawable.car);
+
+		/* STORY BOARDING */
+		temp.put("story_beach", R.drawable.story_matt_beach);
+		temp.put("story_dave_phone", R.drawable.story_dave_phone);
+		temp.put("story_majoros_office", R.drawable.story_office);
 		temp.put("story_test",R.drawable.story_test);
 		temp.put("story_test2",R.drawable.story_test2);
 
@@ -106,6 +123,7 @@ public final class LevelParser
 			br = new BufferedReader(isr);
 			
 			State state = State.NONE;
+			String[] strParts;
 
 			while((str = br.readLine()) != null)
 			{
@@ -136,8 +154,7 @@ public final class LevelParser
 					state = State.STATIONARY_BLOCK;
 					continue;
 				}else if(str.equalsIgnoreCase("[moving_block]"))
-				{
-				
+				{				
 					state = State.MOVING_BLOCK;					
 					continue;
 				}else if(str.equalsIgnoreCase("[hurt_block]"))
@@ -186,11 +203,13 @@ public final class LevelParser
 				 * TODO Handle all of the different attributes
 				 * of the the "tag-like" components in the text file.
 				 */
-				String[] strParts = str.split("\\s+");
+				strParts = str.split("\\s+");
 				
 				String name, lvl_name, text, enemy_type;
 				int xInit, yInit, width, height,
-				maxXMovement, maxYMovement, horizSpeed, verticSpeed, texture;
+					maxXMovement, maxYMovement, horizSpeed,
+					verticSpeed, texture;
+
 				switch(state)
 				{
 					case LEVEL:
@@ -199,9 +218,9 @@ public final class LevelParser
 						level.height = Integer.parseInt(strParts[2]);
 						level.defaultTexture = KEY_RESOURCE_ADDR.get(strParts[3]);
 
-//						if(strParts.length == 5)
-//							level.background = KEY_RESOURCE_ADDR.get(strParts[4]);
-						
+						// if(strParts.length == 5)
+						//		level.background = KEY_RESOURCE_ADDR.get(strParts[4]);
+
 					break;
 
 					case BACKGROUND:
@@ -211,11 +230,9 @@ public final class LevelParser
 						height = Integer.parseInt(strParts[3]);
 						texture = KEY_RESOURCE_ADDR.get(strParts[4]);
 						level.backgrounds.add(new BackgroundBlock(xInit, yInit, width, height).loadGraphic(texture));
-						
-						
+
 					break;	
-					
-					
+
 					case MIDDLE_GROUND:
 						xInit = Integer.parseInt(strParts[0]);
 						yInit = Integer.parseInt(strParts[1]);
@@ -223,7 +240,7 @@ public final class LevelParser
 						height = Integer.parseInt(strParts[3]);
 						texture = KEY_RESOURCE_ADDR.get(strParts[4]);
 						level.middle_grounds.add(new BackgroundBlock(xInit, yInit, width, height).loadGraphic(texture));
-						
+
 					break;
 
 					case STATIONARY_BLOCK:
@@ -233,10 +250,11 @@ public final class LevelParser
 						 height = Integer.parseInt(strParts[3]);
 						 texture = level.defaultTexture;
 
-						if(strParts.length == 5)
-							texture = KEY_RESOURCE_ADDR.get(strParts[4]);
-						
+						 if(strParts.length == 5)
+							 texture = KEY_RESOURCE_ADDR.get(strParts[4]);
+
 						level.stationaryBlocks.add(new FlxBlock(xInit, yInit, width, height).loadGraphic(texture));
+
 					break;
 
 					case MOVING_BLOCK:
@@ -257,24 +275,28 @@ public final class LevelParser
 
 						if(strParts.length == 9)
 								texture = KEY_RESOURCE_ADDR.get(strParts[8]);
-						
+
 						level.movingBlocks.add(new MovingBlock(maxYMovement, verticSpeed, maxXMovement, horizSpeed,
 								xInit, yInit, width, height, false).loadGraphic(texture));
+
 					break;
 
 					case HURT_BLOCK:
+						/*
+						 * Hurt Blocks cause harm to Matt. The default damage is 1. The max life Matt
+						 * Can have is 2 (Super Matt)
+						 */
 						 xInit = Integer.parseInt(strParts[0]);
 						 yInit = Integer.parseInt(strParts[1]);
 						 width = Integer.parseInt(strParts[2]);
 						 height = Integer.parseInt(strParts[3]);
-						 //-- TODO strParts[4] is going to be pain level
 						 texture = level.defaultTexture;
 
-						if(strParts.length == 6)
-							texture = KEY_RESOURCE_ADDR.get(strParts[5]);
-						
+						 if(strParts.length == 6)
+							 texture = KEY_RESOURCE_ADDR.get(strParts[5]);
+
 						level.hurtBlocks.add(new FlxBlock(xInit, yInit, width, height).loadGraphic(texture));
-						
+
 					break;
 
 					case DEATH_BLOCK:
@@ -291,8 +313,9 @@ public final class LevelParser
 
 						if(strParts.length == 5)
 							texture = KEY_RESOURCE_ADDR.get(strParts[4]);
-						
+
 						level.deathBlocks.add(new DeathBlock(xInit, yInit, width, texture));
+
 					break;
 
 					case ENEMY:
@@ -301,49 +324,57 @@ public final class LevelParser
 						 enemy_type = strParts[2];
 
 						 level.enemies.add(EnemyType.getInstance(xInit, yInit, enemy_type));
-						
+
 					break;
 
 					case LABEL:
 						name = strParts[0];
 						xInit = Integer.parseInt(strParts[1]);
 						yInit = Integer.parseInt(strParts[2]);
-						
+
 						level.labels.put(name, new Point(xInit, yInit));
 
 					break;
 
 					case JUMP:
+						/* MANDATORY */
 						xInit = Integer.parseInt(strParts[0]);
 						yInit = Integer.parseInt(strParts[1]);
 						width = Integer.parseInt(strParts[2]);
 						height = Integer.parseInt(strParts[3]);
 						lvl_name = strParts[4];
 						name = strParts[5];
-						
-						//-- TODO Account for multiple visits
-						level.jump.add(new JumpBlock(xInit, yInit, width, height, lvl_name, name, true).loadGraphic(R.drawable.fire));
+						texture = R.drawable.invisible;
+
+						if(strParts.length > 6) // e.g. has more.
+							texture = KEY_RESOURCE_ADDR.get(strParts[6]);
+
+						/*
+						 * TODO - this only allows one time jumps... to modify, put code here.
+						 */
+						level.jump.add(new JumpBlock(xInit, yInit, width, height, lvl_name, name, true).loadGraphic(texture));
 
 					break;
 
 					case POWER_UP:
+						/* MANDATORY */
 						xInit = Integer.parseInt(strParts[0]);
 						yInit = Integer.parseInt(strParts[1]);
 						name = strParts[2];
 
 						level.powerUps.add(PowerUp.getInstance(xInit, yInit, name));
 					break;
-					
+
 					case MUSIC:
 						level.music = KEY_RESOURCE_ADDR.get(strParts[0]);
-					
+
 					break;
 
 					case TIME:
 						Level.timeRemaining = Float.parseFloat(strParts[0]);
-					
+
 					break;				
-					
+
 					case TEXT:
 						xInit = Integer.parseInt(strParts[0]);
 						yInit = Integer.parseInt(strParts[1]);
@@ -360,31 +391,37 @@ public final class LevelParser
 						}else if (color.equalsIgnoreCase("white")){
 							fontColor = Color.WHITE;
 						}
-						
+
 						int size = Integer.parseInt(strParts[3]);
 						text = "";
 						for (int i = 4; i < strParts.length; i++)
 							text += strParts[i] + " ";
+
 						/*
 						 * TODO add to textBox for Storyboards
-						 * 
 						 */
 						Text tempText = new Text(xInit, yInit, FlxG.width);
 						tempText.setText(text);
 						tempText.setSize(size);
 						tempText.setColor(fontColor);
 						level.texts.add(tempText);
-					
-					break;					
 
+					break;					
 
 					default:
 						throw new ParseException("F!", -1);
 				}
 			}
 
-			Player player = new Player();
-			Point p = level.labels.get("start");
+			final Player player = new Player();
+
+			/*
+			 * CHECK START LABEL
+			 */
+			if(!level.labels.containsKey(Level.DEFAULT_START_LABEL))
+				throw new Exception("Missing start label for Level");
+
+			Point p = level.labels.get(Level.DEFAULT_START_LABEL);
 			player.x = p.x;
 			player.y = p.y;
 			level.player = player;
@@ -403,11 +440,12 @@ public final class LevelParser
 					level.enemyMissiles.add(((ShootingEnemy)level.enemies.get(i)).getProjectile());
 				}
 			}
-			
 		}catch(Throwable ioe)
 		{
-			System.err.println("Problem parsing level: " + str);
-			ioe.printStackTrace();
+			/*
+			 * Break Point Here... if the parser is blowing up.
+			 */
+			Log.e(TAG, "Problem parsing string: " + str + " " + ioe);
 		}finally
 		{
 			try{if(br != null) br.close();}catch(Exception sq){}
