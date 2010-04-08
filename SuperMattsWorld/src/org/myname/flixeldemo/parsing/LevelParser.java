@@ -15,7 +15,6 @@ import org.myname.flixeldemo.DeathBlock;
 import org.myname.flixeldemo.GameView;
 import org.myname.flixeldemo.JumpBlock;
 import org.myname.flixeldemo.MovingBlock;
-import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
 import org.myname.flixeldemo.Text;
 
@@ -100,6 +99,7 @@ public final class LevelParser
 		temp.put("locker", R.drawable.lockers);
 		temp.put("locker_large", R.drawable.lockers_large);
 		temp.put("car", R.drawable.car);
+		temp.put("background_beach", R.drawable.background_beach);
 
 		/* STORY BOARDING */
 		temp.put("story_beach", R.drawable.story_matt_beach);
@@ -413,29 +413,22 @@ public final class LevelParser
 				}
 			}
 
-			final Player player = new Player();
-
 			/*
 			 * CHECK START LABEL
 			 */
 			if(!level.labels.containsKey(Level.DEFAULT_START_LABEL))
 				throw new Exception("Missing start label for Level");
 
-			Point p = level.labels.get(Level.DEFAULT_START_LABEL);
-			player.x = p.x;
-			player.y = p.y;
-			level.player = player;
-			
 			//Need to add a reference to the player to smart and shooting enemies so that they will respond to the player
 			for(int i = 0; i < level.enemies.size(); i++)
 			{
 				if(level.enemies.get(i).getClass() == SmartEnemy.class)
 				{
-					((SmartEnemy)level.enemies.get(i)).setPlayer(player);
+					((SmartEnemy)level.enemies.get(i)).setPlayer(Level.player);
 				}
 				else if(level.enemies.get(i).getClass() == ShootingEnemy.class)
 				{
-					((ShootingEnemy)level.enemies.get(i)).setPlayer(player);
+					((ShootingEnemy)level.enemies.get(i)).setPlayer(Level.player);
 					//need to add the shooting enemy's projectile to the level
 					level.enemyMissiles.add(((ShootingEnemy)level.enemies.get(i)).getProjectile());
 				}

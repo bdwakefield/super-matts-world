@@ -14,6 +14,7 @@ import org.myname.flixeldemo.Hud;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
 
+import collectables.EnergyDrink;
 import enemies.Enemy;
 import enemies.Projectile;
 import flash.geom.Point;
@@ -21,6 +22,7 @@ import flash.geom.Point;
 public class Level extends FlxState
 {
 	public static final String DEFAULT_START_LABEL = "start";
+	public static final float DEFAULT_LEVEL_TIME = 60F;
 
 	public static final HashMap<Integer, Level> levelSaves = new HashMap<Integer, Level>();
 
@@ -31,13 +33,15 @@ public class Level extends FlxState
 	/** The label to start the player at in this class. start if not set. */
 	protected static String startLabel;
 	/** Only set by LevelParser and incremented with power-ups.*/
-	public static float timeRemaining = 60;
+	public static float timeRemaining = DEFAULT_LEVEL_TIME;
+
+	/* Only one creation. */	
+	protected static final Player player = new Player();
 
 	protected int defaultTexture = R.drawable.tech_tiles;
 	//protected int background;
 	protected String name;
 	protected int width, height;
-	protected Player player;
 	protected int music = 0;
 	protected ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	protected ArrayList<Projectile> enemyMissiles = new ArrayList<Projectile>();
@@ -72,10 +76,10 @@ public class Level extends FlxState
 		 * set in the Level.switchLevel function. If the specified point is not
 		 * found, then start them at the beginning of the level.s
 		 */
-		Point startPoint = labels.containsKey(startLabel) ? labels.get(startLabel) : labels.get(DEFAULT_START_LABEL);
-		this.player.x = startPoint.x;
-		this.player.y = startPoint.y;
 
+		Point startPoint = labels.containsKey(startLabel) ? labels.get(startLabel) : labels.get(DEFAULT_START_LABEL);
+		//-- Just in case we died last turn.
+		player.reset(startPoint.x, startPoint.y);
 		
 		/*
 		 * TODO play music
@@ -83,7 +87,6 @@ public class Level extends FlxState
 		if (music != 0)
 			FlxG.playMusic(music);
 
-	
 		//-- Save?
 		currentLevel = LevelParser.KEY_RESOURCE_ADDR.get(this.name);
 		levelSaves.put(currentLevel, this);
@@ -233,11 +236,9 @@ public class Level extends FlxState
 		for(Iterator<FlxText> it = texts.iterator(); it.hasNext();)
 			super.add(it.next());
 
-		
 		for(Iterator<FlxCore> it = middle_grounds.iterator(); it.hasNext();)
 			super.add(it.next());
-		
-		
+	
 		for(Iterator<FlxBlock> it = movingBlocks.iterator(); it.hasNext();)
 			super.add(it.next());
 
@@ -251,7 +252,8 @@ public class Level extends FlxState
 			super.add(it.next());
 
 		super.add(player);
-		super.add(Player.chunkies);
+		super.add(Player.CHUNKIES);
+		super.add(EnergyDrink.SPARKS);
 
 		for(Iterator<Enemy> it = enemies.iterator(); it.hasNext();)
 			super.add(it.next());
@@ -277,7 +279,7 @@ public class Level extends FlxState
 	 */
 	private void setCameraFollow()
 	{
-		FlxG.follow(this.player, 2.5f);
+		FlxG.follow(player, 2.5f);
 		FlxG.followAdjust(0.5f, 0.0f);
 		// Changed to stay within bounds of screen for storyboards
 		//FlxG.followBounds(0, 0, this.width + 100, this.height + 100);
@@ -290,7 +292,6 @@ public class Level extends FlxState
 	 */
 	private final void copyContents(Level level)
 	{
-		this.player = level.player;
 		this.enemies = level.enemies;
 		this.labels = level.labels;
 		this.jump = level.jump;
