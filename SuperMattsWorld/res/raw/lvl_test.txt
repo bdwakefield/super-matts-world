@@ -135,7 +135,7 @@ level1_music
 
 [label]
 #name x y  ... start is required
-start 1986 384
+start 32 384
 test 256 288
 testtwo 450 200
 
