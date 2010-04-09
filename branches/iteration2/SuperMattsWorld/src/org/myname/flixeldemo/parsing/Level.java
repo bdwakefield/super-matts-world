@@ -27,7 +27,7 @@ public class Level extends FlxState
 	public static final HashMap<Integer, Level> levelSaves = new HashMap<Integer, Level>();
 
 	/** The next level to be loaded upon SwitchState to this class.*/
-	protected static int nextLevel = R.raw.lvl_test;
+	protected static int nextLevel = R.raw.story_begin_slide1;
 	/** The current level to already loaded in this class. */
 	protected static int currentLevel = R.raw.lvl_jump_test;
 	/** The label to start the player at in this class. start if not set. */

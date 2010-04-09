@@ -83,6 +83,9 @@ public final class LevelParser
 		temp.put("lvl_story_test", R.raw.lvl_story_test);
 		temp.put("lvl_story_test2", R.raw.lvl_story_test2);
 		temp.put("lvl_story_test3", R.raw.lvl_story_test3);
+		temp.put("story_begin_slide1", R.raw.story_begin_slide1);
+		temp.put("story_begin_slide2", R.raw.story_begin_slide2);
+		temp.put("story_begin_slide3", R.raw.story_begin_slide3);
 		
 		/* MUSIC */
 		temp.put("death1", R.raw.death1);
@@ -102,9 +105,9 @@ public final class LevelParser
 		temp.put("background_beach", R.drawable.background_beach);
 
 		/* STORY BOARDING */
-		temp.put("story_beach", R.drawable.story_matt_beach);
+		temp.put("story_matt_beach", R.drawable.story_matt_beach);
 		temp.put("story_dave_phone", R.drawable.story_dave_phone);
-		temp.put("story_majoros_office", R.drawable.story_office);
+		temp.put("story_office", R.drawable.story_office);
 		temp.put("story_test",R.drawable.story_test);
 		temp.put("story_test2",R.drawable.story_test2);
 
