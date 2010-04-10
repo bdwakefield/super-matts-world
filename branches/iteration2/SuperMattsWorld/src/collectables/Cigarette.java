@@ -7,7 +7,7 @@ import org.myname.flixeldemo.parsing.Level;
 
 public class Cigarette extends PowerUp
 {
-	public static float TIME_GAINED = 15F;
+	public static float TIME_GAINED = 5F;
 
 	private static final FlxSound sound = new FlxSound().loadEmbedded(R.raw.cigarettesfx);
 
