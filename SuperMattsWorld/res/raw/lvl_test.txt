@@ -17,14 +17,28 @@ level1_music
 
 [background]
 # x, y, width, height type
-0 -40 8000 900 background_beach
+0 -20 8000 900 background_beach
 
 [middle_ground]
 # x, y, width, height type
+#page 1
 0 352 96 64 tiki_bar
-240 288 64 64 umbrella
-440 256 64 64 palm_tree
+170 352 64 64 umbrella
+352 352 64 64 palm_tree
 50 200 64 64 cloud_large
+620 50 32 32 cloud
+#page 2
+1120 70 64 64 cloud_large
+1080 352 64 64 palm_tree
+#page 3
+1580 100 32 32 cloud
+1652 353 64 64 umbrella
+1990 60 64 64 cloud_large
+#page 4
+#page 5
+2800 50 32 32 cloud
+#page 6
+4085 384 64 32 car
 
 [stationary_block]
 # x, y, width, height ... optionals: type
@@ -56,7 +70,7 @@ level1_music
 2272 336 16 112
 2336 336 96 112
 #page 5
-2688 416 48 200
+2688 416 48 64
 2880 304 128 200
 2880 288 16 16
 3008 208 64 400
@@ -69,8 +83,12 @@ level1_music
 3488 416 353 200 rock
 3600 336 240 80 
 3664 128 144 208
-3456 272 32 16
-3408 144 32 32
+3456 192 32 16 rock
+#- TG beer block
+3300 200 32 32 rock
+#- End of Level (EOL)
+3808 416 480 200  rock
+4288 0 16 616 rock
 
 [moving_block]
 #init x, init y, width, height, max_x_from_init, max_y_from_init, horiz_speed, vert_speed ... optionals: type
@@ -80,13 +98,14 @@ level1_music
 1200 288 48 32 0 96 0 1 rock
 #page 3
 #page 4
-2496 336 64 16 160 0 3 0
+2496 336 64 16 160 0 3 0 rock
 #page 5
 2720 338 64 16 96 0 3 0 rock
 #page 6
 3424 336 32 32 96 0 3 0 rock
-3456 288 32 16 48 64 3 3 rock
-3488 128 32 16 176 0 3 0
+# Crazy diagonal block
+3456 288 32 16 64 -64 3 3 rock
+3488 128 32 16 176 0 3 0 rock
 
 [hurt_block]
 # x, y, width, height, painlevel ... optionals: type
@@ -145,6 +164,7 @@ testtwo 450 200
 80 384 32 32 lvl_story_test start
 300 384 32 32 lvl_story_test3 start
 200 200 16 16 lvl_story_test2 start
+4085 384 64 32 lvl_jump_test start
 
 [power_up]
 # x y type
@@ -166,7 +186,7 @@ testtwo 450 200
 #page 6
 3360 384 cigarette
 3372 384 cigarette
-3408 128 beer
+3300 184 beer
 3456 176 cigarette
 3472 176 cigarette
 

@@ -36,7 +36,7 @@ public class Level extends FlxState
 	public static float timeRemaining = DEFAULT_LEVEL_TIME;
 
 	/* Only one creation. */	
-	protected static final Player player = new Player();
+	public static final Player player = new Player();
 
 	protected int defaultTexture = R.drawable.tech_tiles;
 	//protected int background;
@@ -57,7 +57,7 @@ public class Level extends FlxState
 	protected ArrayList<FlxCore> backgrounds = new ArrayList<FlxCore>();
 	protected ArrayList<FlxCore> middle_grounds = new ArrayList<FlxCore>();
 	protected ArrayList<FlxText> texts = new ArrayList<FlxText>();
-	protected Hud headsUp = new Hud();
+	protected Hud headsUp;
 	
 	public Level()
 	{
@@ -67,7 +67,7 @@ public class Level extends FlxState
 		else
 			new LevelParser(this);
 
-		
+		this.headsUp = new Hud(this.name);
 		this.addComponentsToLayer();
 		this.setCameraFollow();
 
@@ -207,22 +207,6 @@ public class Level extends FlxState
 		 * will set exists to false and viola! Gone!
 		 */
 		FlxG.overlapArrayList(powerUps, player);
-
-		/*
-		 * LEVEL TIMER - TODO use methods.
-		 */
-		if(timeRemaining > 0)
-		{
-			timeRemaining -= FlxG.elapsed;
-	
-			// Update HUD
-			headsUp.updateHud("Time: " + (int)timeRemaining + "     Level: " 
-					+ this.name + "     x: " + (int)player.x + " y: " + (int)player.y);
-			if(timeRemaining <= 0)
-			{
-				player.kill();
-			}
-		}
 	}
 
 	/**
@@ -269,8 +253,7 @@ public class Level extends FlxState
 		for(Iterator<FlxBlock> it = powerUps.iterator(); it.hasNext();)
 			super.add(it.next());
 
-		super.add(headsUp.getBackground());
-		super.add(headsUp.getHudText());
+		super.add(headsUp);
 	}
 
 	/**

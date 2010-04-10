@@ -3,9 +3,10 @@ package enemies;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.flixel.*;
+import org.flixel.FlxCore;
+import org.flixel.FlxResourceManager;
+import org.flixel.FlxSprite;
 import org.myname.flixeldemo.Player;
-import org.myname.flixeldemo.R;
 
 //An enemy that moves sideways
 public class Enemy extends FlxSprite
@@ -13,7 +14,7 @@ public class Enemy extends FlxSprite
 	private static final float GRAVITY_ACCELERATION = 500;
 	protected final int VELOCITY_AFTER_HIT = -150;
 	protected static final float DAMAGE_FROM_PLAYER = 1;
-	private static final FlxSound yupyup = new FlxSound().loadEmbedded(R.raw.yup_yup);
+	//private static final FlxSound yupyup = new FlxSound().loadEmbedded(R.raw.yup_yup);
 
 	//set to true if you want the enemy to be hurt by the player jumping on it
 	protected boolean killable = false;
