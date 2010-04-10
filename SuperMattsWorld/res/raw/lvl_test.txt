@@ -122,8 +122,8 @@ level1_music
 2560 448 320 100 water
 #page 6
 3264 448 224 100 water
-3264 432 96 16 fire
-3392 432 96 16 fire
+3264 432 96 16 flame
+3392 432 96 16 flame
 
 
 [enemy]

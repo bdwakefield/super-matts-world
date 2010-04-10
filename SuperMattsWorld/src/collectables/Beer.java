@@ -7,7 +7,7 @@ import org.myname.flixeldemo.parsing.Level;
 
 public final class Beer extends PowerUp 
 {
-	public static float TIME_GAINED = 100F;
+	public static float TIME_GAINED = 10F;
 
 	private static final FlxSound sound = new FlxSound().loadEmbedded(R.raw.beersfx);
 
