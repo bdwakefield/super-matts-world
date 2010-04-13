@@ -1,7 +1,7 @@
 package collectables;
 
 import org.flixel.FlxEmitter;
-import org.flixel.FlxSound;
+import org.flixel.FlxG;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
 
@@ -13,7 +13,6 @@ import org.myname.flixeldemo.R;
  */
 public final class EnergyDrink extends PowerUp
 {
-	private static final FlxSound SOUND = new FlxSound().loadEmbedded(R.raw.energysfx);
 	public static final FlxEmitter SPARKS = new FlxEmitter(0, 0, -0.5F)
 	.setXVelocity(-550.0F, 550.0F)
 	.setYVelocity(-550.0F, 100F)
@@ -41,6 +40,6 @@ public final class EnergyDrink extends PowerUp
 	@Override
 	protected void playSound()
 	{
-		SOUND.play();
+		FlxG.play(R.raw.energysfx, FlxG.getVolume());
 	}
 }

@@ -21,29 +21,31 @@ public final class Hud extends FlxSprite
 	private static final String HUD_TXT_FMT = "Time: {0}     Level: {1}     x: {2}  y: {3}";
 
 	private final FlxText hudText;
-	private final FlxSprite background;
 	private final String levelName;
 
 	public Hud(String lvlName)
 	{
-		  this.hudText = new FlxText((int)(-FlxG.scroll.x), (int)(-FlxG.scroll.y), (int)(FlxG.width));
-		  this.hudText.setSize(18);
-		  // TODO Change Font of hudText		  
-		  this.background = new FlxSprite((int)(-FlxG.scroll.x), (int)(-FlxG.scroll.y),
-				  					null, false, (int)(FlxG.width), 50, Color.GRAY);
-		  this.background.setAlpha(0.4f);
-		  this.levelName = lvlName;
+		super((int)(-FlxG.scroll.x), (int)(-FlxG.scroll.y),
+				null, false, (int)(FlxG.width), 50, Color.GRAY);
+		super.setAlpha(0.4f);
+		super.width = FlxG.width;
+
+		this.hudText = new FlxText((int)(-FlxG.scroll.x), (int)(-FlxG.scroll.y), (int)(FlxG.width));
+		this.hudText.setSize(18);		  
+
+		this.levelName = lvlName;
 	}
 
 	@Override
 	public void update()
 	{
+		super.update();
+
 		hudText.x =  -FlxG.scroll.x/2 * 2; 
 		hudText.y =  -FlxG.scroll.y/2 * 2;
 		hudText.width = FlxG.width;
-		background.x =  -FlxG.scroll.x/2 * 2;
-		background.y =  -FlxG.scroll.y/2 * 2;
-		background.width = FlxG.width;
+		super.x =  -FlxG.scroll.x/2 * 2;
+		super.y =  -FlxG.scroll.y/2 * 2;
 
 		// Update HUD
 		if(Level.timeRemaining > 0)
@@ -60,14 +62,13 @@ public final class Hud extends FlxSprite
 
 		//-- Update components
 		this.hudText.update();
-		this.background.update();
 	}
 
 	@Override
 	public void render()
 	{
 		//-- Render components
+		super.render();
 		this.hudText.render();
-		this.background.render();
 	}
 }

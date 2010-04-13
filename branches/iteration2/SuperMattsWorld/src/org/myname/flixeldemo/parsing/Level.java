@@ -85,7 +85,7 @@ public class Level extends FlxState
 		 * TODO play music
 		 */
 		if (music != 0)
-			FlxG.playMusic(music);
+			FlxG.playMusic(music, FlxG.getVolume());
 
 		//-- Save?
 		currentLevel = LevelParser.KEY_RESOURCE_ADDR.get(this.name);
@@ -141,6 +141,7 @@ public class Level extends FlxState
 			public void Collide(FlxCore object1, FlxCore object2)
 			{
 				//-- squashed by a moving block!
+				FlxG.play(R.raw.squishsfx, FlxG.getVolume());
 				player.kill();
 			}
 		}
@@ -152,6 +153,7 @@ public class Level extends FlxState
 				//-- squashed by a stationary block???
 				//   maybe this also needs to be here for the moving
 				//   blocks! Ask Grant!
+				FlxG.play(R.raw.squishsfx, FlxG.getVolume());
 				player.kill();
 			}
 		}
@@ -263,7 +265,8 @@ public class Level extends FlxState
 	private void setCameraFollow()
 	{
 		FlxG.follow(player, 2.5f);
-		FlxG.followAdjust(0.5f, 0.0f);
+		//-- Follow a bit lower
+		FlxG.followAdjust(0.5f, 0.3f);
 		// Changed to stay within bounds of screen for storyboards
 		//FlxG.followBounds(0, 0, this.width + 100, this.height + 100);
 		FlxG.followBounds(0, 0, this.width, this.height);

@@ -1,6 +1,6 @@
 package collectables;
 
-import org.flixel.FlxSound;
+import org.flixel.FlxG;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
 import org.myname.flixeldemo.parsing.Level;
@@ -8,8 +8,6 @@ import org.myname.flixeldemo.parsing.Level;
 public class Cigarette extends PowerUp
 {
 	public static float TIME_GAINED = 5F;
-
-	private static final FlxSound sound = new FlxSound().loadEmbedded(R.raw.cigarettesfx);
 
 	protected Cigarette(int X, int Y, int Width, int Height)
 	{
@@ -26,6 +24,6 @@ public class Cigarette extends PowerUp
 	@Override
 	protected void playSound()
 	{
-		sound.play();
+		FlxG.play(R.raw.cigarettesfx, FlxG.getVolume());
 	}
 }
