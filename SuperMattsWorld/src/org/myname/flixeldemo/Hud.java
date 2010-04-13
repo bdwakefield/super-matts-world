@@ -79,9 +79,10 @@ public final class Hud extends FlxSprite
 			
 			cigLeft.x = this.x + 40;
 			cigLeft.y = this.y + 9;
-			cigMiddle = new BackgroundBlock((int)cigLeft.x + (int)cigLeft.width, (int)this.y + 9, 
-								(Level.timeRemaining > 70 ? 210 : (int)Level.timeRemaining * 3),
-								32).loadGraphic(R.drawable.cig_midd_hud);
+			cigMiddle.x  = cigLeft.x + cigLeft.width;
+			cigMiddle.y = this.y + 9;
+			cigMiddle.width = (Level.timeRemaining > 70 ? 210 : (int)Level.timeRemaining * 3);
+			cigMiddle.loadGraphic(R.drawable.cig_midd_hud);
 			cigRight.x = cigMiddle.x + cigMiddle.width;
 			cigRight.y = this.y + 9;
 			
