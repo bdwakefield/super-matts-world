@@ -3,11 +3,9 @@ package org.myname.flixeldemo;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.flixel.FlxCore;
 import org.flixel.FlxEmitter;
 import org.flixel.FlxFadeListener;
 import org.flixel.FlxG;
-import org.flixel.FlxSound;
 import org.flixel.FlxSprite;
 import org.myname.flixeldemo.parsing.Level;
 
@@ -24,12 +22,9 @@ public class Player extends FlxSprite
 	private static final int PLAYER_WIDTH_PX = 32;
 	private static final int PLAYER_HEIGHT_PX = 32;
 
-	private static final int PLAYER_RUN_SPEED = 180;
-	private static final float GRAVITY_ACCELERATION = 500; //-- 420 (600 seems best)
-	private static final float JUMP_ACCELERATION = 400; //-- 400
-
-	private static final FlxSound SOUND_DEATH = new FlxSound().loadEmbedded(R.raw.death1);
-	private static final FlxSound JUMP = new FlxSound().loadEmbedded(R.raw.jumpsfx);
+	public static final int PLAYER_RUN_SPEED = 180;
+	public static final float GRAVITY_ACCELERATION = 500; //-- 420 (600 seems best)
+	public static final float JUMP_ACCELERATION = 400; //-- 400
 
 	private static final String MATT_IDLE = "idle";
 	private static final String MATT_RUN = "run";
@@ -84,7 +79,7 @@ public class Player extends FlxSprite
 		if((FlxG.keys.justPressed(KeyEvent.KEYCODE_DPAD_UP) || FlxG.keys.justPressed(KeyEvent.KEYCODE_L)) && velocity.y==0)
 		{
 			velocity.y = -JUMP_ACCELERATION;
-			JUMP.play();
+			FlxG.play(R.raw.jumpsfx, FlxG.getVolume());
 		}
 
 		if(velocity.y != 0)
@@ -108,7 +103,7 @@ public class Player extends FlxSprite
 	{
 		super.kill();
 
-		SOUND_DEATH.play();
+		FlxG.play(R.raw.death1, FlxG.getVolume());
 		CHUNKIES.x = this.x + (this.width>>1);
 		CHUNKIES.y = this.y + (this.height>>1);
 
@@ -135,25 +130,5 @@ public class Player extends FlxSprite
 			}
 		}
 		);
-	}
-
-	@Override
-	public boolean collide(FlxCore Core)
-	{
-		if(Core.onScreen())
-		{
-			boolean hx = super.collideX(Core);
-			boolean hy = super.collideY(Core);
-			
-			//Causes player to fall after hitting the bottom of a platform
-			if(hy && Core.hitCeiling())
-				velocity.y = JUMP_ACCELERATION;
-			
-			return hx || hy;
-		}
-		else
-		{
-			return false;
-		}
 	}
 }

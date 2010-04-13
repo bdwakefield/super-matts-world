@@ -3,8 +3,8 @@ package org.flixel;
 import java.util.ArrayList;
 
 import org.myname.flixeldemo.Player;
+import org.myname.flixeldemo.R;
 
-import android.R;
 import flash.display.BitmapData;
 import flash.geom.Point;
 import flash.geom.Rectangle;
