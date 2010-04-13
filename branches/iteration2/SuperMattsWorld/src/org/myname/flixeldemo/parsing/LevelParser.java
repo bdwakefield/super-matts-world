@@ -103,6 +103,12 @@ public final class LevelParser
 		temp.put("locker_large", R.drawable.lockers_large);
 		temp.put("car", R.drawable.car);
 		temp.put("background_beach", R.drawable.background_beach);
+		
+		
+		/* CIG HUD */
+		temp.put("cig_end_hud", R.drawable.cig_end_hud);
+		temp.put("cig_filt_hud", R.drawable.cig_filt_hud);
+		temp.put("cig_midd_hud", R.drawable.cig_midd_hud);
 
 		/* STORY BOARDING */
 		temp.put("story_matt_beach", R.drawable.story_matt_beach);

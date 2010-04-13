@@ -256,6 +256,7 @@ public class Level extends FlxState
 			super.add(it.next());
 
 		super.add(headsUp);
+		
 	}
 
 	/**
