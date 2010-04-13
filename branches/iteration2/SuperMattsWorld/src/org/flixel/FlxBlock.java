@@ -1,6 +1,10 @@
 package org.flixel;
 
-import java.util.*;
+import java.util.ArrayList;
+
+import org.myname.flixeldemo.Player;
+
+import android.R;
 import flash.display.BitmapData;
 import flash.geom.Point;
 import flash.geom.Rectangle;
@@ -79,5 +83,26 @@ public class FlxBlock extends FlxCore
 				_p.y += _tileSize;
 			}
 		}
+	}
+
+	@Override
+	/*
+	 * Player HeadBlock fix.
+	 */
+	public boolean collideY(FlxCore Core)
+	{
+		final boolean collide = super.collideY(Core);
+
+		if(collide && Core instanceof Player 
+				&& this.y < Core.y)
+		{
+			final Player p = (Player)Core;
+			p.acceleration.y = Player.JUMP_ACCELERATION;
+			//-- do not let the player go stationary.
+			p.velocity.y = 1;
+			FlxG.play(R.raw.head_blocksfx, FlxG.getVolume());
+		}
+
+		return collide;
 	}
 }
