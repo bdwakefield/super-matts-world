@@ -10,6 +10,7 @@ import org.flixel.FlxSprite;
 import org.myname.flixeldemo.parsing.Level;
 
 import android.view.KeyEvent;
+import audio.SFXPool;
 
 public class Player extends FlxSprite
 {
@@ -79,7 +80,7 @@ public class Player extends FlxSprite
 		if((FlxG.keys.justPressed(KeyEvent.KEYCODE_DPAD_UP) || FlxG.keys.justPressed(KeyEvent.KEYCODE_L)) && velocity.y==0)
 		{
 			velocity.y = -JUMP_ACCELERATION;
-			FlxG.play(R.raw.jumpsfx, FlxG.getVolume());
+			SFXPool.playSound(R.raw.jumpsfx);
 		}
 
 		if(velocity.y != 0)
@@ -103,7 +104,7 @@ public class Player extends FlxSprite
 	{
 		super.kill();
 
-		FlxG.play(R.raw.death1, FlxG.getVolume());
+		SFXPool.playSound(R.raw.death1);
 		CHUNKIES.x = this.x + (this.width>>1);
 		CHUNKIES.y = this.y + (this.height>>1);
 

@@ -1,9 +1,10 @@
 package collectables;
 
 import org.flixel.FlxEmitter;
-import org.flixel.FlxG;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
+
+import audio.SFXPool;
 
 /**
  * Turns Matt into SuperMatt and plays the appropriate sound
@@ -40,6 +41,6 @@ public final class EnergyDrink extends PowerUp
 	@Override
 	protected void playSound()
 	{
-		FlxG.play(R.raw.energysfx, FlxG.getVolume());
+		SFXPool.playSound(R.raw.energysfx);
 	}
 }
