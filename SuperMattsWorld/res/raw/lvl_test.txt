@@ -10,10 +10,14 @@
 lvl_test 8000 464 sand
 
 
+
+
 # TG 4-2-2010 Added music back in
 [music]
 level1_music
 
+[time]
+30
 
 [background]
 # x, y, width, height type

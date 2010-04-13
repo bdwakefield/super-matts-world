@@ -4,7 +4,6 @@ import java.text.MessageFormat;
 
 import org.flixel.FlxG;
 import org.flixel.FlxSprite;
-import org.flixel.FlxText;
 import org.myname.flixeldemo.parsing.Level;
 
 import android.graphics.Color;
@@ -20,9 +19,13 @@ public final class Hud extends FlxSprite
 	/* Format String for HUD */
 	private static final String HUD_TXT_FMT = "Time: {0}     Level: {1}     x: {2}  y: {3}";
 
-	private final FlxText hudText;
+	private final Text hudText;
 	private final String levelName;
-
+	private final BackgroundBlock cigLeft;
+	private BackgroundBlock cigMiddle;
+	private final BackgroundBlock cigRight;
+	
+	
 	public Hud(String lvlName)
 	{
 		super((int)(-FlxG.scroll.x), (int)(-FlxG.scroll.y),
@@ -30,10 +33,24 @@ public final class Hud extends FlxSprite
 		super.setAlpha(0.4f);
 		super.width = FlxG.width;
 
-		this.hudText = new FlxText((int)(-FlxG.scroll.x), (int)(-FlxG.scroll.y), (int)(FlxG.width));
-		this.hudText.setSize(18);		  
+		this.hudText = new Text((int)(-FlxG.scroll.x), (int)(-FlxG.scroll.y), (int)(FlxG.width));
+		this.hudText.setSize(18);
+		this.hudText.setColor(Color.RED);
 
 		this.levelName = lvlName;
+		
+		// Cigarette HUD
+		this.cigLeft = new BackgroundBlock((int)this.x + 40,
+							(int)this.y + 9, 120 , 32);
+		cigLeft.loadGraphic(R.drawable.cig_filt_hud);
+		this.cigMiddle = new BackgroundBlock((int)cigLeft.x + (int)cigLeft.width, (int)this.y + 9,
+							(Level.timeRemaining > 70 ? 210 : (int)Level.timeRemaining * 3),
+							32);
+		cigMiddle.loadGraphic(R.drawable.cig_midd_hud);
+		this.cigRight = new BackgroundBlock((int)cigMiddle.x + (int)cigMiddle.width,
+							(int)this.y + 9, 24, 32);
+		cigRight.loadGraphic(R.drawable.cig_end_hud);
+		
 	}
 
 	@Override
@@ -47,7 +64,10 @@ public final class Hud extends FlxSprite
 		super.x =  -FlxG.scroll.x/2 * 2;
 		super.y =  -FlxG.scroll.y/2 * 2;
 
+		
+		
 		// Update HUD
+		
 		if(Level.timeRemaining > 0)
 		{
 			this.hudText.setText(MessageFormat.format(HUD_TXT_FMT,
@@ -55,12 +75,26 @@ public final class Hud extends FlxSprite
 					this.levelName,								//{1}
 					(int)Level.player.x,						//{2}
 					(int)Level.player.y));						//{3}
+			
+			
+			cigLeft.x = this.x + 40;
+			cigLeft.y = this.y + 9;
+			cigMiddle = new BackgroundBlock((int)cigLeft.x + (int)cigLeft.width, (int)this.y + 9, 
+								(Level.timeRemaining > 70 ? 210 : (int)Level.timeRemaining * 3),
+								32).loadGraphic(R.drawable.cig_midd_hud);
+			cigRight.x = cigMiddle.x + cigMiddle.width;
+			cigRight.y = this.y + 9;
+			
 		}else if(Level.timeRemaining <= 0 && !Level.player.dead)
 		{
 			Level.player.kill();
 		}
 
 		//-- Update components
+		
+		this.cigLeft.update();
+		this.cigMiddle.update();
+		this.cigRight.update();
 		this.hudText.update();
 	}
 
@@ -69,6 +103,10 @@ public final class Hud extends FlxSprite
 	{
 		//-- Render components
 		super.render();
+		
+		this.cigLeft.render();
+		this.cigMiddle.render();
+		this.cigRight.render();
 		this.hudText.render();
 	}
 }
