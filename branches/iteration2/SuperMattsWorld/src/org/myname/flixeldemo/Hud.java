@@ -24,6 +24,7 @@ public final class Hud extends FlxSprite
 	private final BackgroundBlock cigLeft;
 	private BackgroundBlock cigMiddle;
 	private final BackgroundBlock cigRight;
+	private int currentTime;
 	
 	
 	public Hud(String lvlName)
@@ -50,6 +51,7 @@ public final class Hud extends FlxSprite
 		this.cigRight = new BackgroundBlock((int)cigMiddle.x + (int)cigMiddle.width,
 							(int)this.y + 9, 24, 32);
 		cigRight.loadGraphic(R.drawable.cig_end_hud);
+		currentTime = (int)Level.timeRemaining;
 		
 	}
 
@@ -70,22 +72,28 @@ public final class Hud extends FlxSprite
 		
 		if(Level.timeRemaining > 0)
 		{
+			
 			this.hudText.setText(MessageFormat.format(HUD_TXT_FMT,
 					(int)(Level.timeRemaining -= FlxG.elapsed), //{0}
 					this.levelName,								//{1}
 					(int)Level.player.x,						//{2}
 					(int)Level.player.y));						//{3}
 			
-			
+			// Time Remaining Cigarette updates
 			cigLeft.x = this.x + 40;
 			cigLeft.y = this.y + 9;
 			cigMiddle.x  = cigLeft.x + cigLeft.width;
 			cigMiddle.y = this.y + 9;
-			cigMiddle.width = (Level.timeRemaining > 70 ? 210 : (int)Level.timeRemaining * 3);
-			cigMiddle.loadGraphic(R.drawable.cig_midd_hud);
+			if (currentTime != (int)Level.timeRemaining){
+				cigMiddle.width = (Level.timeRemaining > 70 ? 210 : (int)Level.timeRemaining * 3);
+				cigMiddle.loadGraphic(R.drawable.cig_midd_hud);
+				currentTime = (int)Level.timeRemaining;
+	
+			}
 			cigRight.x = cigMiddle.x + cigMiddle.width;
 			cigRight.y = this.y + 9;
-			
+
+		
 		}else if(Level.timeRemaining <= 0 && !Level.player.dead)
 		{
 			Level.player.kill();
