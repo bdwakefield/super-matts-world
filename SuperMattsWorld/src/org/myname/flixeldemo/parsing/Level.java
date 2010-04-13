@@ -14,6 +14,8 @@ import org.myname.flixeldemo.Hud;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
 
+import audio.SFXPool;
+
 import collectables.EnergyDrink;
 import enemies.Enemy;
 import enemies.Projectile;
@@ -80,10 +82,7 @@ public class Level extends FlxState
 		Point startPoint = labels.containsKey(startLabel) ? labels.get(startLabel) : labels.get(DEFAULT_START_LABEL);
 		//-- Just in case we died last turn.
 		player.reset(startPoint.x, startPoint.y);
-		
-		/*
-		 * TODO play music
-		 */
+
 		if (music != 0)
 			FlxG.playMusic(music, FlxG.getVolume());
 
@@ -141,7 +140,7 @@ public class Level extends FlxState
 			public void Collide(FlxCore object1, FlxCore object2)
 			{
 				//-- squashed by a moving block!
-				FlxG.play(R.raw.squishsfx, FlxG.getVolume());
+				SFXPool.playSound(R.raw.squishsfx);
 				player.kill();
 			}
 		}
@@ -153,7 +152,7 @@ public class Level extends FlxState
 				//-- squashed by a stationary block???
 				//   maybe this also needs to be here for the moving
 				//   blocks! Ask Grant!
-				FlxG.play(R.raw.squishsfx, FlxG.getVolume());
+				SFXPool.playSound(R.raw.squishsfx);
 				player.kill();
 			}
 		}
@@ -256,7 +255,6 @@ public class Level extends FlxState
 			super.add(it.next());
 
 		super.add(headsUp);
-		
 	}
 
 	/**
