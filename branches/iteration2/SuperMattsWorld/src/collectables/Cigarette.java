@@ -1,9 +1,10 @@
 package collectables;
 
-import org.flixel.FlxG;
 import org.myname.flixeldemo.Player;
 import org.myname.flixeldemo.R;
 import org.myname.flixeldemo.parsing.Level;
+
+import audio.SFXPool;
 
 public class Cigarette extends PowerUp
 {
@@ -24,6 +25,6 @@ public class Cigarette extends PowerUp
 	@Override
 	protected void playSound()
 	{
-		FlxG.play(R.raw.cigarettesfx, FlxG.getVolume());
+		SFXPool.playSound(R.raw.cigarettesfx);
 	}
 }
