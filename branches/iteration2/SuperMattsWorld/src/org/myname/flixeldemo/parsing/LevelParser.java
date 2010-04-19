@@ -53,7 +53,7 @@ public final class LevelParser
 		 * TODO - Add all resources that will be referenced as a memory
 		 * location in the Droid.
 		 */
-		HashMap<String, Integer> temp = new HashMap<String, Integer>();
+		HashMap<String, Integer> temp = new HashMap<String, Integer>(100, 1.1F);
 
 		/* TEXTURES (Tiled) */
 		temp.put("fire", R.drawable.fire);
@@ -103,8 +103,7 @@ public final class LevelParser
 		temp.put("locker_large", R.drawable.lockers_large);
 		temp.put("car", R.drawable.car);
 		temp.put("background_beach", R.drawable.background_beach);
-		
-		
+
 		/* CIG HUD */
 		temp.put("cig_end_hud", R.drawable.cig_end_hud);
 		temp.put("cig_filt_hud", R.drawable.cig_filt_hud);
