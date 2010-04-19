@@ -166,7 +166,7 @@ testtwo 450 200
 [jump]
 # x y width height goto label
 80 384 32 32 lvl_story_test start
-300 384 32 32 lvl_story_test3 start
+#300 384 32 32 lvl_story_test3 start
 200 200 16 16 lvl_story_test2 start
 4085 384 64 32 lvl_jump_test start
 
