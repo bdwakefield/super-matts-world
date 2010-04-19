@@ -40,8 +40,7 @@ public class Player extends FlxSprite
 	.setXVelocity(-150.0f, 150.0f)
 	.setYVelocity(-200.0f, 0.0f)
 	.setRotation(-720, 720)
-	.setGravity(400f)
-	.createSprites(R.drawable.giblets);
+	.setGravity(400f);
 
 	public Player()
 	{
@@ -131,5 +130,12 @@ public class Player extends FlxSprite
 			}
 		}
 		);
+	}
+
+	@Override
+	public void reset(float X, float Y)
+	{
+		super.reset(X, Y);
+		this.health = HEALTH_MATT;
 	}
 }
