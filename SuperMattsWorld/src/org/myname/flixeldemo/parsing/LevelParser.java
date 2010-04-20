@@ -38,8 +38,40 @@ public final class LevelParser
 {
 	private static final String TAG = "MattWorldLevelParser";
 
-	enum State{LEVEL, BACKGROUND ,MIDDLE_GROUND, STATIONARY_BLOCK,
-		MOVING_BLOCK, HURT_BLOCK, DEATH_BLOCK, ENEMY, LABEL, JUMP, POWER_UP, KENEMY, MUSIC, TIME, TEXT, NONE}
+	/* STATES */
+	private static final int STATE_NONE = -1;
+	private static final int STATE_LEVEL = 1;
+	private static final int STATE_BACKGROUND = 2;
+	private static final int STATE_MIDDLEGROUND = 3;
+	private static final int STATE_STATIONARY_BLOCK = 4;
+	private static final int STATE_MOVING_BLOCK = 5;
+	private static final int STATE_HURT_BLOCK = 6;
+	private static final int STATE_DEATH_BLOCK = 7;
+	private static final int STATE_ENEMY = 8;
+	private static final int STATE_LABEL = 9;
+	private static final int STATE_JUMP = 10;
+	private static final int STATE_POWER_UP = 11;
+	private static final int STATE_KENEMY = 12;
+	private static final int STATE_MUSIC = 13;
+	private static final int STATE_TIME = 14;
+	private static final int STATE_TEXT = 15;
+
+	/* TAGS */
+	private static final String TAG_LEVEL = "[level]";
+	private static final String TAG_BACKGROUND = "[background]";
+	private static final String TAG_MIDDLEGROUND = "[middle_ground]";
+	private static final String TAG_STATIONARY_BLOCK = "[stationary_block]";
+	private static final String TAG_MOVING_BLOCK = "[moving_block]";
+	private static final String TAG_HURT_BLOCK = "[hurt_block]";
+	private static final String TAG_DEATH_BLOCK = "[death_block]";
+	private static final String TAG_ENEMY = "[enemy]";
+	private static final String TAG_LABEL = "[label]";
+	private static final String TAG_JUMP= "[jump]";
+	private static final String TAG_POWER_UP = "[power_up]";
+	private static final String TAG_KENEMY = "[kenemy]";
+	private static final String TAG_MUSIC = "[music]";
+	private static final String TAG_TIME = "[time]";
+	private static final String TAG_TEXT = "[text]";
 
 	/** 
 	 * Map for taking text resource names and converting them into the integer address value.
@@ -130,8 +162,13 @@ public final class LevelParser
 			isr = new InputStreamReader(GameView.res.openRawResource(Level.nextLevel), Charset.forName("UTF-8"));
 			br = new BufferedReader(isr);
 			
-			State state = State.NONE;
+			int state = STATE_NONE;
 			String[] strParts;
+
+			String name, lvl_name, text, enemy_type;
+			int xInit, yInit, width, height,
+				maxXMovement, maxYMovement, horizSpeed,
+				verticSpeed, texture;
 
 			while((str = br.readLine()) != null)
 			{
@@ -145,82 +182,73 @@ public final class LevelParser
 				 * Determine if there was a change of state
 				 * for this particular line of text.
 				 */
-				if(str.equalsIgnoreCase("[level]"))
+				if(str.equalsIgnoreCase(TAG_LEVEL))
 				{
-					state = State.LEVEL;
+					state = STATE_LEVEL;
 					continue;
-				}else if(str.equalsIgnoreCase("[background]"))
+				}else if(str.equalsIgnoreCase(TAG_BACKGROUND))
 				{				
-					state = State.BACKGROUND;
+					state = STATE_BACKGROUND;
 					continue;
-				}else if(str.equalsIgnoreCase("[middle_ground]"))
+				}else if(str.equalsIgnoreCase(TAG_MIDDLEGROUND))
 				{				
-					state = State.MIDDLE_GROUND;
+					state = STATE_MIDDLEGROUND;
 					continue;
-				}else if(str.equalsIgnoreCase("[stationary_block]"))
+				}else if(str.equalsIgnoreCase(TAG_STATIONARY_BLOCK))
 				{
-					state = State.STATIONARY_BLOCK;
+					state = STATE_STATIONARY_BLOCK;
 					continue;
-				}else if(str.equalsIgnoreCase("[moving_block]"))
+				}else if(str.equalsIgnoreCase(TAG_MOVING_BLOCK))
 				{				
-					state = State.MOVING_BLOCK;					
+					state = STATE_MOVING_BLOCK;					
 					continue;
-				}else if(str.equalsIgnoreCase("[hurt_block]"))
+				}else if(str.equalsIgnoreCase(TAG_HURT_BLOCK))
 				{
-					state = State.HURT_BLOCK;
+					state = STATE_HURT_BLOCK;
 					continue;
-				}else if(str.equalsIgnoreCase("[death_block]"))
+				}else if(str.equalsIgnoreCase(TAG_DEATH_BLOCK))
 				{
-					state = State.DEATH_BLOCK;
+					state = STATE_DEATH_BLOCK;
 					continue;
-				}else if(str.equalsIgnoreCase("[enemy]"))
+				}else if(str.equalsIgnoreCase(TAG_ENEMY))
 				{
-					state = State.ENEMY;
+					state = STATE_ENEMY;
 					continue;
-				}else if(str.equalsIgnoreCase("[kenemy]"))
+				}else if(str.equalsIgnoreCase(TAG_KENEMY))
 				{
-					state= State.KENEMY;
+					state= STATE_KENEMY;
 					continue;
-				}else if(str.equalsIgnoreCase("[label]"))
+				}else if(str.equalsIgnoreCase(TAG_LABEL))
 				{
-					state = State.LABEL;
+					state = STATE_LABEL;
 					continue;	
-				}else if(str.equalsIgnoreCase("[jump]"))
+				}else if(str.equalsIgnoreCase(TAG_JUMP))
 				{
-					state = State.JUMP;
+					state = STATE_JUMP;
 					continue;
-				}else if(str.equalsIgnoreCase("[power_up]"))
+				}else if(str.equalsIgnoreCase(TAG_POWER_UP))
 				{
-					state = State.POWER_UP;
+					state = STATE_POWER_UP;
 					continue;	
-				}else if(str.equalsIgnoreCase("[music]"))
+				}else if(str.equalsIgnoreCase(TAG_MUSIC))
 				{
-					state =State.MUSIC;
+					state = STATE_MUSIC;
 					continue;
-				}else if(str.equalsIgnoreCase("[text]"))
+				}else if(str.equalsIgnoreCase(TAG_TEXT))
 				{
-					state =State.TEXT;
+					state = STATE_TEXT;
 					continue;
-				}else if(str.equalsIgnoreCase("[time]"))
+				}else if(str.equalsIgnoreCase(TAG_TIME))
 				{
-					state =State.TIME;
+					state = STATE_TIME;
 					continue;
 				}
 
-				/*
-				 * TODO Handle all of the different attributes
-				 * of the the "tag-like" components in the text file.
-				 */
 				strParts = str.split("\\s+");
-				
-				String name, lvl_name, text, enemy_type;
-				int xInit, yInit, width, height,
-					maxXMovement, maxYMovement, horizSpeed,
-					verticSpeed, texture;
 
 				switch(state)
 				{
-					case LEVEL:
+					case STATE_LEVEL:
 						level.name = strParts[0];
 						level.width = Integer.parseInt(strParts[1]);
 						level.height = Integer.parseInt(strParts[2]);
@@ -231,7 +259,7 @@ public final class LevelParser
 
 					break;
 
-					case BACKGROUND:
+					case STATE_BACKGROUND:
 						xInit = Integer.parseInt(strParts[0]);
 						yInit = Integer.parseInt(strParts[1]);
 						width = Integer.parseInt(strParts[2]);
@@ -241,7 +269,7 @@ public final class LevelParser
 
 					break;	
 
-					case MIDDLE_GROUND:
+					case STATE_MIDDLEGROUND:
 						xInit = Integer.parseInt(strParts[0]);
 						yInit = Integer.parseInt(strParts[1]);
 						width = Integer.parseInt(strParts[2]);
@@ -251,7 +279,7 @@ public final class LevelParser
 
 					break;
 
-					case STATIONARY_BLOCK:
+					case STATE_STATIONARY_BLOCK:
 						 xInit = Integer.parseInt(strParts[0]);
 						 yInit = Integer.parseInt(strParts[1]);
 						 width = Integer.parseInt(strParts[2]);
@@ -265,7 +293,7 @@ public final class LevelParser
 
 					break;
 
-					case MOVING_BLOCK:
+					case STATE_MOVING_BLOCK:
 						/*
 						 * Question about oneway... should the thing 
 						 * just travel right off the screen without even seeing
@@ -289,7 +317,7 @@ public final class LevelParser
 
 					break;
 
-					case HURT_BLOCK:
+					case STATE_HURT_BLOCK:
 						/*
 						 * Hurt Blocks cause harm to Matt. The default damage is 1. The max life Matt
 						 * Can have is 2 (Super Matt)
@@ -307,7 +335,7 @@ public final class LevelParser
 
 					break;
 
-					case DEATH_BLOCK:
+					case STATE_DEATH_BLOCK:
 						 xInit = Integer.parseInt(strParts[0]);
 						 yInit = Integer.parseInt(strParts[1]);
 						 width = Integer.parseInt(strParts[2]);
@@ -326,7 +354,7 @@ public final class LevelParser
 
 					break;
 
-					case ENEMY:
+					case STATE_ENEMY:
 						 xInit = Integer.parseInt(strParts[0]);
 						 yInit = Integer.parseInt(strParts[1]);
 						 enemy_type = strParts[2];
@@ -335,7 +363,7 @@ public final class LevelParser
 
 					break;
 
-					case LABEL:
+					case STATE_LABEL:
 						name = strParts[0];
 						xInit = Integer.parseInt(strParts[1]);
 						yInit = Integer.parseInt(strParts[2]);
@@ -344,7 +372,7 @@ public final class LevelParser
 
 					break;
 
-					case JUMP:
+					case STATE_JUMP:
 						/* MANDATORY */
 						xInit = Integer.parseInt(strParts[0]);
 						yInit = Integer.parseInt(strParts[1]);
@@ -364,7 +392,7 @@ public final class LevelParser
 
 					break;
 
-					case POWER_UP:
+					case STATE_POWER_UP:
 						/* MANDATORY */
 						xInit = Integer.parseInt(strParts[0]);
 						yInit = Integer.parseInt(strParts[1]);
@@ -373,17 +401,17 @@ public final class LevelParser
 						level.powerUps.add(PowerUp.getInstance(xInit, yInit, name));
 					break;
 
-					case MUSIC:
+					case STATE_MUSIC:
 						level.music = KEY_RESOURCE_ADDR.get(strParts[0]);
 
 					break;
 
-					case TIME:
+					case STATE_TIME:
 						Level.timeRemaining = Float.parseFloat(strParts[0]);
 
 					break;				
 
-					case TEXT:
+					case STATE_TEXT:
 						xInit = Integer.parseInt(strParts[0]);
 						yInit = Integer.parseInt(strParts[1]);
 						String color = strParts[2];
@@ -405,9 +433,6 @@ public final class LevelParser
 						for (int i = 4; i < strParts.length; i++)
 							text += strParts[i] + " ";
 
-						/*
-						 * TODO add to textBox for Storyboards
-						 */
 						Text tempText = new Text(xInit, yInit, FlxG.width);
 						tempText.setText(text);
 						tempText.setSize(size);

@@ -17,15 +17,15 @@ public class Player extends FlxSprite
 	public static final int HEALTH_MATT = 1;
 	public static final int HEALTH_STEVE = 2;
 
-	protected static final int PLAYER_START_X = 10;
+	private static final int PLAYER_START_X = 10;
 	private static final int PLAYER_START_Y = 640-230;
 
 	private static final int PLAYER_WIDTH_PX = 32;
 	private static final int PLAYER_HEIGHT_PX = 32;
 
 	public static final int PLAYER_RUN_SPEED = 180;
-	public static final float GRAVITY_ACCELERATION = 500; //-- 420 (600 seems best)
-	public static final float JUMP_ACCELERATION = 400; //-- 400
+	public static final int GRAVITY_ACCELERATION = 500; //-- 420 (600 seems best)
+	public static final int JUMP_ACCELERATION = 400; //-- 400
 
 	private static final String MATT_IDLE = "idle";
 	private static final String MATT_RUN = "run";
@@ -83,17 +83,11 @@ public class Player extends FlxSprite
 		}
 
 		if(velocity.y != 0)
-		{
 			play(this.health == HEALTH_MATT ? MATT_JUMP : STEVE_JUMP);
-		}
 		else if(velocity.x == 0)
-		{
 			play(this.health == HEALTH_MATT ? MATT_IDLE : STEVE_IDLE);
-		}
 		else
-		{
 			play(this.health == HEALTH_MATT ? MATT_RUN : STEVE_RUN);
-		}
 
 		super.update();
 	}
