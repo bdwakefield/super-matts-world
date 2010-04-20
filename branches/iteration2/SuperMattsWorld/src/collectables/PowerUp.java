@@ -67,7 +67,7 @@ public abstract class PowerUp extends FlxBlock
 	 */
 	public final boolean overlaps(FlxCore Core)
 	{
-		final boolean overlap = super.overlaps(Core);
+		final boolean overlap = this.onScreen() && super.overlaps(Core);
 
 		if(overlap && Core instanceof Player)
 		{
