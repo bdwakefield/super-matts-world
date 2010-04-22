@@ -101,7 +101,8 @@ public class FlxBlock extends FlxCore
 			final Player p = (Player)Core;
 			p.acceleration.y = Player.JUMP_ACCELERATION;
 			//-- do not let the player go stationary.
-			p.velocity.y = 1;
+			p.velocity.y = 2;
+			p.y += 1;
 
 			SFXPool.playSound(R.raw.head_blocksfx);
 		}

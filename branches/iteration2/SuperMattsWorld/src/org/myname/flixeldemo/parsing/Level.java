@@ -55,7 +55,6 @@ public class Level extends FlxState
 	protected ArrayList<FlxBlock> hurtBlocks = new ArrayList<FlxBlock>();
 	protected ArrayList<FlxCore> deathBlocks = new ArrayList<FlxCore>();
 	protected ArrayList<FlxBlock> powerUps = new ArrayList<FlxBlock>();
-	
 	protected ArrayList<FlxCore> backgrounds = new ArrayList<FlxCore>();
 	protected ArrayList<FlxCore> middle_grounds = new ArrayList<FlxCore>();
 	protected ArrayList<FlxText> texts = new ArrayList<FlxText>();
@@ -81,7 +80,14 @@ public class Level extends FlxState
 
 		Point startPoint = labels.containsKey(startLabel) ? labels.get(startLabel) : labels.get(DEFAULT_START_LABEL);
 		//-- Just in case we died last turn.
-		player.reset(startPoint.x, startPoint.y);
+		if(player.dead)
+		{
+			player.reset(startPoint.x, startPoint.y);
+		}else
+		{
+			player.x = startPoint.x;
+			player.y = startPoint.y;
+		}
 
 		if (music != 0)
 			FlxG.playMusic(music, FlxG.getVolume());

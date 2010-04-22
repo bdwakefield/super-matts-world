@@ -36,25 +36,25 @@ import flash.geom.Point;
  */
 public final class LevelParser
 {
-	private static final String TAG = "MattWorldLevelParser";
+	private static final String TAG = "MattsWorldLevelParser";
 
 	/* STATES */
-	private static final int STATE_NONE = -1;
-	private static final int STATE_LEVEL = 1;
-	private static final int STATE_BACKGROUND = 2;
-	private static final int STATE_MIDDLEGROUND = 3;
-	private static final int STATE_STATIONARY_BLOCK = 4;
-	private static final int STATE_MOVING_BLOCK = 5;
-	private static final int STATE_HURT_BLOCK = 6;
-	private static final int STATE_DEATH_BLOCK = 7;
-	private static final int STATE_ENEMY = 8;
-	private static final int STATE_LABEL = 9;
-	private static final int STATE_JUMP = 10;
-	private static final int STATE_POWER_UP = 11;
-	private static final int STATE_KENEMY = 12;
-	private static final int STATE_MUSIC = 13;
-	private static final int STATE_TIME = 14;
-	private static final int STATE_TEXT = 15;
+	private static final short STATE_NONE = -1;
+	private static final short STATE_LEVEL = 1;
+	private static final short STATE_BACKGROUND = 2;
+	private static final short STATE_MIDDLEGROUND = 3;
+	private static final short STATE_STATIONARY_BLOCK = 4;
+	private static final short STATE_MOVING_BLOCK = 5;
+	private static final short STATE_HURT_BLOCK = 6;
+	private static final short STATE_DEATH_BLOCK = 7;
+	private static final short STATE_ENEMY = 8;
+	private static final short STATE_LABEL = 9;
+	private static final short STATE_JUMP = 10;
+	private static final short STATE_POWER_UP = 11;
+	private static final short STATE_KENEMY = 12;
+	private static final short STATE_MUSIC = 13;
+	private static final short STATE_TIME = 14;
+	private static final short STATE_TEXT = 15;
 
 	/* TAGS */
 	private static final String TAG_LEVEL = "[level]";
@@ -68,7 +68,7 @@ public final class LevelParser
 	private static final String TAG_LABEL = "[label]";
 	private static final String TAG_JUMP= "[jump]";
 	private static final String TAG_POWER_UP = "[power_up]";
-	private static final String TAG_KENEMY = "[kenemy]";
+	private static final String TAG_KENEMY = "[kenemy]"; // Don't use.
 	private static final String TAG_MUSIC = "[music]";
 	private static final String TAG_TIME = "[time]";
 	private static final String TAG_TEXT = "[text]";
@@ -85,7 +85,7 @@ public final class LevelParser
 		 * TODO - Add all resources that will be referenced as a memory
 		 * location in the Droid.
 		 */
-		HashMap<String, Integer> temp = new HashMap<String, Integer>(100, 1.1F);
+		final HashMap<String, Integer> temp = new HashMap<String, Integer>(100, 1.1F);
 
 		/* TEXTURES (Tiled) */
 		temp.put("fire", R.drawable.fire);
@@ -97,6 +97,7 @@ public final class LevelParser
 		temp.put("sand", R.drawable.sand);
 		temp.put("rock", R.drawable.rock);
 		temp.put("boulder", R.drawable.boulder);
+		temp.put("brick",R.drawable.brick);
 		temp.put("invisible", R.drawable.invisible);
 
 		/* CHARACTERS (Tiled) */
@@ -105,8 +106,12 @@ public final class LevelParser
 		temp.put("kenemy", R.drawable.enemy);
 		temp.put("fish", R.drawable.fish);
 		temp.put("beach_goer", R.drawable.beach_goer);
-		temp.put("seaweed", R.drawable.seaweed); // -- ha ha seaweed is a
-													// character.
+		temp.put("seaweed", R.drawable.seaweed); // -- ha ha seaweed is a character.
+		temp.put("hall_runner", R.drawable.hall_runner);
+		temp.put("heath", R.drawable.heath);
+		temp.put("majoros", R.drawable.majoros);
+		temp.put("rat", R.drawable.rat);
+
 		/* LEVELS (Text)*/
 		temp.put("lvl_test", R.raw.lvl_test);
 		temp.put("lvl_test2", R.raw.lvl_test2);
@@ -118,14 +123,14 @@ public final class LevelParser
 		temp.put("story_begin_slide1", R.raw.story_begin_slide1);
 		temp.put("story_begin_slide2", R.raw.story_begin_slide2);
 		temp.put("story_begin_slide3", R.raw.story_begin_slide3);
-		
+
 		/* MUSIC */
 		temp.put("death1", R.raw.death1);
 		temp.put("death2", R.raw.death2);
 		temp.put("level1_music", R.raw.level1_music);
-		
-		/* BACKGROUND/MIDDLEGROUND */
-		temp.put("titlescreen", R.drawable.titlescreen);
+		temp.put("level2_music", R.raw.level2_music);
+
+		/* MIDDLEGROUND */
 		temp.put("tiki_bar", R.drawable.tiki_bar);
 		temp.put("umbrella", R.drawable.umbrella);
 		temp.put("palm_tree", R.drawable.palm_tree);
@@ -134,6 +139,16 @@ public final class LevelParser
 		temp.put("locker", R.drawable.lockers);
 		temp.put("locker_large", R.drawable.lockers_large);
 		temp.put("car", R.drawable.car);
+		temp.put("torch", R.drawable.torch);
+		temp.put("backpack", R.drawable.backpack);
+		temp.put("sofa_fire", R.drawable.sofa_fire); // sofa on fire (death_block)
+		temp.put("sofa", R.drawable.sofa_fire);
+		temp.put("cream_tiles", R.drawable.cream_tiles);
+		temp.put("vending_machine", R.drawable.vending_machine);
+		temp.put("warning", R.drawable.warning); // for heath
+		temp.put("window", R.drawable.warning); // to outdoors
+
+		/* BACKGROUND */
 		temp.put("background_beach", R.drawable.background_beach);
 
 		/* CIG HUD */
@@ -141,7 +156,8 @@ public final class LevelParser
 		temp.put("cig_filt_hud", R.drawable.cig_filt_hud);
 		temp.put("cig_midd_hud", R.drawable.cig_midd_hud);
 
-		/* STORY BOARDING */
+		/* STORY BOARDING (Images and LVL files) */
+		temp.put("titlescreen", R.drawable.titlescreen);
 		temp.put("story_matt_beach", R.drawable.story_matt_beach);
 		temp.put("story_dave_phone", R.drawable.story_dave_phone);
 		temp.put("story_office", R.drawable.story_office);
@@ -471,7 +487,7 @@ public final class LevelParser
 			/*
 			 * Break Point Here... if the parser is blowing up.
 			 */
-			Log.e(TAG, "Problem parsing string: " + str + " " + ioe);
+			Log.e(TAG, "Problem parsing string: " + str + " " + ioe, ioe);
 		}finally
 		{
 			try{if(br != null) br.close();}catch(Exception sq){}
