@@ -35,7 +35,7 @@ public final class SFXPool
 	{
 		release();
 
-		soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 100);
+		soundPool = new SoundPool(9, AudioManager.STREAM_MUSIC, 20);
 		soundMap = new HashMap<Integer, Integer>();
 
 		for(final int i : AVAILABLE_SOUNDS)
@@ -90,6 +90,4 @@ public final class SFXPool
 		release();
 		super.finalize();
 	}
-
-	
 }
